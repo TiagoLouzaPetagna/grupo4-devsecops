@@ -7,7 +7,6 @@ Repositório oficial: <https://github.com/TiagoLouzaPetagna/grupo4-devsecops>
 | Integrante | RM | Responsabilidade |
 |---|---:|---|
 | Tiago Louzã | 562404 | Líder técnico e responsável pelo repositório |
-| Leandro de Souza da Silva | 566485 | Integrante |
 | Luiz Fernando | 562652 | Integrante |
 | Fabricio de Freitas Evangelista | 564782 | Integrante |
 | Mateus Kalil | 565098 | Integrante |
@@ -28,11 +27,13 @@ O alvo do laboratório é o **OWASP Juice Shop v20.2.0**, aplicação deliberada
 
 ## Estrutura
 
-- `LAB.md`: roteiro reproduzível e divisão dos 12 minutos.
+- `LAB.md`: guia reproduzível com os comandos completos do laboratório.
 - `docker-compose.yml`: Juice Shop, Semgrep, ZAP e executor do gate.
 - `security/zap-juice-shop.yaml`: spider, AJAX spider, active scan e relatórios.
 - `scripts/fetch-target.ps1`: baixa o código oficial fixado em v20.2.0.
+- `scripts/fetch-target.sh`: equivalente Bash para Linux.
 - `scripts/prepare-green.ps1`: cria uma cópia com correção parametrizada da busca SQL.
+- `scripts/prepare-green.sh`: equivalente Bash da correção para Linux.
 - `scripts/quality-gate.mjs`: bloqueia achados HIGH/CRITICAL.
 - `analysis/ACHADOS.md`: classificação e tratamento de três achados reais.
 - `examples/iac`: exemplo Terraform complementar para o Checkov.
@@ -42,7 +43,8 @@ O alvo do laboratório é o **OWASP Juice Shop v20.2.0**, aplicação deliberada
 
 - Docker Desktop usando contêineres Linux.
 - Docker Compose.
-- PowerShell 7 ou Windows PowerShell 5.1.
+- No Windows: PowerShell 7 ou Windows PowerShell 5.1.
+- No Linux: Bash, `tar` e `curl` ou `wget`.
 - Internet na primeira execução para baixar imagens e o código-fonte oficial.
 
 Validação do ambiente:
@@ -53,7 +55,7 @@ docker compose version
 docker info
 ```
 
-Preparação recomendada antes da aula:
+Preparação recomendada para a primeira execução:
 
 ```powershell
 git clone https://github.com/TiagoLouzaPetagna/grupo4-devsecops.git
@@ -75,10 +77,20 @@ código, preparam a cópia corrigida e interpretam os relatórios no quality gat
 
 Na raiz do projeto, prepare o alvo e a pasta de relatórios:
 
+Windows PowerShell:
+
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 .\scripts\fetch-target.ps1
 New-Item -ItemType Directory -Force .\reports | Out-Null
+```
+
+Linux com Bash:
+
+```bash
+chmod +x scripts/*.sh
+./scripts/fetch-target.sh
+mkdir -p reports
 ```
 
 ### Semgrep red com regras gerais
@@ -102,8 +114,21 @@ docker compose --profile tools run --rm gate node /workspace/scripts/quality-gat
 
 ### Correção e Semgrep green
 
+Windows PowerShell:
+
 ```powershell
 .\scripts\prepare-green.ps1
+```
+
+Linux com Bash:
+
+```bash
+./scripts/prepare-green.sh
+```
+
+O restante do exemplo abaixo usa a sintaxe do PowerShell:
+
+```powershell
 
 docker compose --profile tools run --rm semgrep semgrep scan `
   --config auto `
@@ -121,8 +146,8 @@ docker compose --profile tools run --rm gate node /workspace/scripts/quality-gat
 
 O Dependency-Check analisa diretamente o código oficial baixado em
 `target/juice-shop`. O grupo não adiciona uma biblioteca vulnerável separada.
-A base de CVEs deve ser atualizada antes da aula e mantida no volume Docker
-`grupo4-odc-data`; o comando apresentado em aula usa essa base em cache.
+A base de CVEs deve ser atualizada antes do primeiro scan e mantida no volume
+Docker `grupo4-odc-data`; as execuções seguintes usam essa base em cache.
 
 Os comandos completos de atualização, scan e gate CVSS estão no `LAB.md`.
 
@@ -135,14 +160,14 @@ docker compose --profile tools run --rm gate node /workspace/scripts/quality-gat
   --zap /workspace/reports/zap-juice-shop.json `
   --threshold HIGH `
   --expect fail
-docker compose --profile tools down --remove-orphans
 ```
 
-O comando direto do Checkov também está no `LAB.md`.
+O comando direto do Checkov e a limpeza final do ambiente também estão no
+`LAB.md`.
 
-Para demonstrar uma execução realmente vermelha e outra verde no GitHub Actions,
-abra a action **Grupo 4 — demonstração red/green**, escolha **Run workflow** e
-execute primeiro o cenário `red` e depois o cenário `green`.
+O workflow manual **Grupo 4 — demonstração red/green** permite executar
+separadamente os cenários `red` e `green` pelo botão **Run workflow** do GitHub
+Actions.
 
 Resultados validados em 15 set. 2026:
 
