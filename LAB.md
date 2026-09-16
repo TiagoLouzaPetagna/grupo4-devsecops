@@ -1,4 +1,4 @@
-# Laboratório reproduzível — OWASP Juice Shop + Semgrep + ZAP
+# Laboratório reproduzível — Juice Shop + Semgrep + Dependency-Check + ZAP
 
 **Grupo 4:** Tiago Louzã (RM562404, líder técnico), Leandro de Souza da Silva (RM566485),
 Luiz Fernando (RM562652), Fabricio de Freitas Evangelista (RM564782),
@@ -9,7 +9,7 @@ Mateus Kalil (RM565098) e Erik Gunnar (RM565107, relator).
 
 ## 1. Objetivo
 
-Demonstrar, em até 12 minutos, como SAST e DAST identificam vulnerabilidades em um alvo conhecido e autorizado, e como uma política automatizada impede a promoção de código com severidade alta.
+Demonstrar, em até 12 minutos, como SAST, SCA e DAST analisam um alvo conhecido e autorizado, e como políticas automatizadas reagem a achados acima dos limites definidos.
 
 O alvo é o **OWASP Juice Shop v20.2.0**, projeto deliberadamente vulnerável da OWASP. A imagem e o código-fonte usam a mesma versão. A aplicação é publicada somente em `127.0.0.1:3000` e o scanner se comunica com ela por uma rede interna do Docker Compose.
 
@@ -17,7 +17,7 @@ O alvo é o **OWASP Juice Shop v20.2.0**, projeto deliberadamente vulnerável da
 
 - Alvo permitido: contêiner local `bkimminich/juice-shop:v20.2.0`.
 - Código permitido: release oficial v20.2.0 baixado em `target/juice-shop`.
-- Ferramentas: Semgrep 1.172.0 e OWASP ZAP 2.17.0.
+- Ferramentas: Semgrep 1.172.0, OWASP Dependency-Check 13.0.0 e OWASP ZAP 2.17.0.
 - Dados: apenas dados sintéticos da própria aplicação de treinamento.
 - Proibido: testar a demo pública do Juice Shop ou qualquer endereço de terceiro.
 
@@ -29,7 +29,20 @@ Set-Location grupo4-devsecops
 docker version
 docker compose version
 docker compose --profile tools pull
+docker pull owasp/dependency-check:13.0.0
+docker volume create grupo4-odc-data
 Set-ExecutionPolicy -Scope Process Bypass
+```
+
+Atualize a base de CVEs antes da aula. Essa etapa pode demorar na primeira vez e
+não faz parte dos 12 minutos da apresentação:
+
+```powershell
+docker run --rm `
+  -v grupo4-odc-data:/usr/share/dependency-check/data `
+  owasp/dependency-check:13.0.0 `
+  --updateonly `
+  --nvdDatafeed "https://dependency-check.github.io/DependencyCheck_Builder/nvd_cache/nvdcve-{0}.json.gz"
 ```
 
 Os scanners serão chamados diretamente por comandos Docker. O único script da
@@ -37,20 +50,19 @@ etapa de correção é `prepare-green.ps1`, que cria uma cópia segura sem alter
 arquivo vulnerável original. `fetch-target.ps1` baixa o release oficial e
 `quality-gate.mjs` interpreta os JSON, mas nenhum deles executa um scanner.
 
-Antes da aula, o grupo deve percorrer as seções 5 a 9, confirmar os relatórios em
+Antes da aula, o grupo deve percorrer as seções 5 a 10, confirmar os relatórios em
 `reports/` e registrar os números reais em `analysis/ACHADOS.md`.
 
 ## 4. Roteiro de 12 minutos
 
 | Tempo | Parte | Ação | Evidência |
 |---|---|---|---|
-| 0:00–1:00 | Escopo | Apresentar Juice Shop, versão fixada e isolamento | Compose e aviso ético |
-| 1:00–3:00 | SAST red | Mostrar `routes/search.ts` e executar Semgrep | SQL interpolado, CWE-89 |
-| 3:00–4:30 | Gate red | Processar o JSON com limiar HIGH | Bloqueio esperado |
-| 4:30–6:00 | Correção | Mostrar query parametrizada na cópia de trabalho | `replacements` do Sequelize |
-| 6:00–7:00 | Gate green | Reexecutar Semgrep | Ausência do HIGH específico |
-| 7:00–10:30 | DAST | Executar ZAP no contêiner local | JSON, HTML e SARIF |
-| 10:30–12:00 | Análise | Discutir três achados, VP/FP e limitações | Matriz de achados |
+| 0:00–0:30 | Escopo | Apresentar Juice Shop, versão fixada e isolamento | Compose e aviso ético |
+| 0:30–2:00 | SAST red | Executar Semgrep e comprovar o bloqueio | SQL interpolado, CWE-89 |
+| 2:00–3:00 | Correção | Preparar a cópia, reexecutar e aprovar o gate | `replacements` do Sequelize |
+| 3:00–5:00 | SCA | Executar Dependency-Check somente no Juice Shop | HTML, JSON, SARIF e gate CVSS 7 |
+| 5:00–10:30 | DAST | Executar ZAP no contêiner local | JSON, HTML e SARIF |
+| 10:30–12:00 | Análise | Comparar cobertura, achados e limitações | Matriz de achados |
 
 Distribua as partes entre os integrantes reais do grupo.
 
@@ -106,7 +118,50 @@ confundir a turma com os demais achados deliberados do Juice Shop.
 
 Essa etapa demonstra a correção de um achado, não afirma que todo o Juice Shop ficou seguro. O alvo continua propositalmente vulnerável.
 
-## 7. DAST com OWASP ZAP
+## 7. SCA com OWASP Dependency-Check
+
+O alvo continua sendo exclusivamente o código oficial do Juice Shop. O grupo não
+adiciona dependências vulneráveis nem usa uma aplicação separada para produzir
+achados. O gate nativo falha somente se o relatório contiver CVSS 7 ou superior.
+
+```powershell
+$ProjectDir = (Get-Location).Path
+New-Item -ItemType Directory -Force .\reports\dependency-check | Out-Null
+$OdcReports = @(
+  '.\reports\dependency-check\dependency-check-report.html',
+  '.\reports\dependency-check\dependency-check-report.json',
+  '.\reports\dependency-check\dependency-check-report.sarif'
+)
+Remove-Item -Force $OdcReports -ErrorAction SilentlyContinue
+
+docker run --rm `
+  -v "${ProjectDir}\target\juice-shop:/src/target/juice-shop:ro" `
+  -v "${ProjectDir}\reports\dependency-check:/report" `
+  -v grupo4-odc-data:/usr/share/dependency-check/data `
+  owasp/dependency-check:13.0.0 `
+  --scan /src/target/juice-shop `
+  --exclude '**/test/files/**' `
+  --out /report `
+  --format HTML `
+  --format JSON `
+  --format SARIF `
+  --project "OWASP Juice Shop v20.2.0 - Grupo 4" `
+  --noupdate `
+  --disableOssIndex `
+  --enableExperimental `
+  --failOnCVSS 7
+```
+
+A ausência de lockfile e `node_modules` no release limita o inventário. Por isso,
+zero CVEs significa apenas que nenhuma CVE foi confirmada nas dependências que a
+ferramenta conseguiu observar. Essa limitação deve permanecer no relatório e na
+fala da apresentação.
+
+Na execução validada em 16 set. 2026, a base atualizada observou 11 dependências,
+0 CVEs e 0 exceções. O gate terminou com aprovação porque nenhuma pontuação CVSS
+atingiu o limite 7.
+
+## 8. DAST com OWASP ZAP
 
 ```powershell
 docker compose up -d juice-shop
@@ -131,33 +186,13 @@ O plano automatizado executa spider tradicional, AJAX spider, varredura passiva 
 
 Na execução validada em 15 set. 2026, o spider tradicional encontrou 101 URLs, o AJAX spider encontrou 233 e o relatório apresentou 11 tipos de alerta. A regra 40018 sinalizou uma SQL Injection HIGH em `/rest/products/search?q=...`; o gate bloqueou o cenário. O resultado de uma nova execução pode variar conforme cobertura e versão, portanto sempre confira o JSON em vez de repetir números por pressuposição.
 
-## 8. Dependency-Check e Checkov por comandos
+## 9. Checkov por comando
 
-As duas ferramentas complementares também são executadas diretamente. Defina o
-caminho absoluto do projeto uma vez:
+Defina o caminho absoluto do projeto uma vez:
 
 ```powershell
 $ProjectDir = (Get-Location).Path
 ```
-
-Dependency-Check:
-
-```powershell
-New-Item -ItemType Directory -Force .\reports\dependency-check | Out-Null
-docker run --rm `
-  -v "${ProjectDir}\target\juice-shop:/src/target/juice-shop:ro" `
-  -v "${ProjectDir}\reports\dependency-check:/report" `
-  owasp/dependency-check:13.0.0 `
-  --scan /src/target/juice-shop `
-  --out /report `
-  --format ALL `
-  --project "Checkpoint DevSecOps Grupo 4" `
-  --noupdate `
-  --disableOssIndex `
-  --enableExperimental
-```
-
-Checkov:
 
 ```powershell
 docker run --rm `
@@ -170,21 +205,20 @@ docker run --rm `
   --soft-fail
 ```
 
-O resultado limitado do Dependency-Check continua registrado como inconclusivo,
-pois o release baixado não contém lockfiles nem `node_modules`. O Checkov usa
-somente as políticas nativas, sem regra criada pelo grupo.
+O Checkov usa somente as políticas nativas, sem regra criada pelo grupo.
 
-## 9. Política do gate
+## 10. Política do gate
 
 | Fonte | Regra | Normalização |
 |---|---|---|
 | Semgrep | `ERROR` | HIGH |
+| Dependency-Check | `CVSS >= 7` | HIGH/CRITICAL conforme o CVSS |
 | ZAP | `riskcode: 3` | HIGH |
 | ZAP | `riskcode: 4` | CRITICAL |
 
 O laboratório bloqueia HIGH/CRITICAL. Em produção, a política também precisaria de contexto de exposição, explorabilidade, proprietário, prazo e exceção formalmente aprovada.
 
-## 10. Três achados para análise
+## 11. Três achados para análise
 
 1. **SQL Injection na busca — Semgrep + ZAP:** CWE-89, verdadeiro positivo corroborado, correção por parâmetros.
 2. **Content Security Policy ausente — ZAP:** CWE-693, verdadeiro positivo de configuração; impacto depende das demais defesas.
@@ -192,7 +226,7 @@ O laboratório bloqueia HIGH/CRITICAL. Em produção, a política também precis
 
 Acrescente os alertas reais do ZAP após a execução, sempre vinculados ao relatório.
 
-## 11. Plano B
+## 12. Plano B
 
 Se Docker ou rede falhar durante a apresentação:
 
@@ -201,7 +235,7 @@ Se Docker ou rede falhar durante a apresentação:
 3. executar apenas o gate nos JSON, se a imagem `node:22-alpine` estiver em cache;
 4. explicar que código, regras, versões e política continuam rastreáveis.
 
-## 12. Limpeza
+## 13. Limpeza
 
 ```powershell
 docker compose --profile tools down --remove-orphans

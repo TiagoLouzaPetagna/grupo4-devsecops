@@ -5,198 +5,27 @@
         "dataSource": [
 {
                 "name": "NVD API Last Checked",
-                "timestamp": "2026-09-15T15:37:55Z"
+                "timestamp": "2026-09-16T18:08:38Z"
             }
 ,{
                 "name": "NVD API Last Modified",
-                "timestamp": "2026-09-15T15:29:13Z"
+                "timestamp": "2026-09-16T15:19:45Z"
             }
 ,{
                 "name": "NVD Cache Last Checked",
-                "timestamp": "2026-09-15T15:37:55Z"
+                "timestamp": "2026-09-16T18:08:38Z"
             }
 ,{
                 "name": "NVD Cache Last Modified",
-                "timestamp": "2026-09-15T15:29:13Z"
+                "timestamp": "2026-09-16T15:19:45Z"
             }
         ]
 
-            ,"analysisExceptions":[
-{            
-            
-            
-            "exception":{"message":"org.owasp.dependencycheck.analyzer.exception.AnalysisException: Archive contains a file (..\/..\/frontend\/dist\/frontend\/assets\/public\/videos\/owasp_promo.vtt) that would be extracted outside of the target directory."
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:503)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-                ,            
-            
-            
-            "cause":{"message":"org.owasp.dependencycheck.analyzer.exception.ArchiveExtractionException: Archive contains a file (..\/..\/frontend\/dist\/frontend\/assets\/public\/videos\/owasp_promo.vtt) that would be extracted outside of the target directory."
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractArchive(ArchiveAnalyzer.java:589)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:457)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-            }
-
-            }
-}
-,{            
-            
-            
-            "exception":{"message":"org.owasp.dependencycheck.analyzer.exception.AnalysisException: java.util.zip.ZipException: encrypted ZIP entry not supported"
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:503)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-                ,            
-            
-            
-            "cause":{"message":"org.owasp.dependencycheck.analyzer.exception.ArchiveExtractionException: java.util.zip.ZipException: encrypted ZIP entry not supported"
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractArchive(ArchiveAnalyzer.java:602)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:457)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-                ,            
-            
-            
-            "cause":{"message":"java.util.zip.ZipException: encrypted ZIP entry not supported"
-                ,"stackTrace":[
-"java.base\/java.util.zip.ZipInputStream.readLOC(ZipInputStream.java:530)"
-,"java.base\/java.util.zip.ZipInputStream.getNextEntry(ZipInputStream.java:158)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractArchive(ArchiveAnalyzer.java:581)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:457)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-            }
-
-            }
-
-            }
-}
-,{            
-            
-            
-            "exception":{"message":"org.owasp.dependencycheck.analyzer.exception.AnalysisException: Archive contains a file (..\/..\/ftp\/legal.md) that would be extracted outside of the target directory."
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:503)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-                ,            
-            
-            
-            "cause":{"message":"org.owasp.dependencycheck.analyzer.exception.ArchiveExtractionException: Archive contains a file (..\/..\/ftp\/legal.md) that would be extracted outside of the target directory."
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractArchive(ArchiveAnalyzer.java:589)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractFiles(ArchiveAnalyzer.java:457)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.extractAndAnalyze(ArchiveAnalyzer.java:295)"
-,"org.owasp.dependencycheck.analyzer.ArchiveAnalyzer.analyzeDependency(ArchiveAnalyzer.java:277)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-            }
-
-            }
-}
-,{            
-            
-            
-            "exception":{"message":"org.owasp.dependencycheck.analyzer.exception.AnalysisException: java.io.EOFException: Expected to read bytes from the stream"
-                ,"stackTrace":[
-"org.owasp.dependencycheck.analyzer.PEAnalyzer.analyzeDependency(PEAnalyzer.java:273)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-                ,            
-            
-            
-            "cause":{"message":"java.io.EOFException: Expected to read bytes from the stream"
-                ,"stackTrace":[
-"com.kichik.pecoff4j.io.DataReader.safeRead(DataReader.java:161)"
-,"com.kichik.pecoff4j.io.DataReader.readWord(DataReader.java:48)"
-,"com.kichik.pecoff4j.DOSHeader.read(DOSHeader.java:53)"
-,"org.owasp.dependencycheck.utils.PEParser.read(PEParser.java:58)"
-,"org.owasp.dependencycheck.utils.PEParser.parse(PEParser.java:47)"
-,"org.owasp.dependencycheck.analyzer.PEAnalyzer.analyzeDependency(PEAnalyzer.java:159)"
-,"org.owasp.dependencycheck.analyzer.AbstractAnalyzer.analyze(AbstractAnalyzer.java:131)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:88)"
-,"org.owasp.dependencycheck.AnalysisTask.call(AnalysisTask.java:37)"
-,"java.base\/java.util.concurrent.FutureTask.run(FutureTask.java:328)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)"
-,"java.base\/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)"
-,"java.base\/java.lang.Thread.run(Thread.java:1474)"
-                ]
-            }
-
-            }
-}
-            ]
 
     },
     "projectInfo": {
-        "name": "Checkpoint DevSecOps Grupo 4",
-        "reportDate": "2026-09-16T01:15:05.854676572Z",
+        "name": "OWASP Juice Shop v20.2.0 - Grupo 4",
+        "reportDate": "2026-09-16T18:14:07.576894775Z",
         "credits": {
             "NVD": "This product uses the NVD API but is not endorsed or certified by the NVD. This report contains data retrieved from the National Vulnerability Database: https://nvd.nist.gov",
             "CISA": "This report may contain data retrieved from the CISA Known Exploited Vulnerability Catalog: https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
@@ -298,35 +127,6 @@
 
         },{
             "isVirtual": false,
-            "fileName": "arbitraryFileWrite.zip",
-            "filePath": "\/src\/target\/juice-shop\/test\/files\/arbitraryFileWrite.zip"
-,"md5": "b37d74ef19c7e449f586dc67fb512500",
-            "sha1": "c2b37ad2110bf77aaa4f38aadced93ffa4384b0e",
-            "sha256": "599571c7fb6c0ab3afd8cb9585527bcd2c07a2bb9cf9068b5a3625ead91fd9d0"            ,"evidenceCollected": {
-                "vendorEvidence": [
-{
-                            "type": "vendor",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "arbitraryFileWrite"
-                        }
-                ],
-                "productEvidence": [
-{
-                            "type": "product",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "arbitraryFileWrite"
-                    }
-                ],
-                "versionEvidence": [
-                ]
-            }
-
-        },{
-            "isVirtual": false,
             "fileName": "dat.gui.min.js",
             "filePath": "\/src\/target\/juice-shop\/frontend\/src\/assets\/private\/dat.gui.min.js"
 ,"md5": "af36d65ba1df03365da03658de64dbcc",
@@ -335,35 +135,6 @@
                 "vendorEvidence": [
                 ],
                 "productEvidence": [
-                ],
-                "versionEvidence": [
-                ]
-            }
-
-        },{
-            "isVirtual": false,
-            "fileName": "invalidTypeForClient.exe",
-            "filePath": "\/src\/target\/juice-shop\/test\/files\/invalidTypeForClient.exe"
-,"md5": "2319ac34f4848755a639fd524038dfd3",
-            "sha1": "3082a2f97b22b4602e8d39083eef2ca0f7e54c4c",
-            "sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2"            ,"evidenceCollected": {
-                "vendorEvidence": [
-{
-                            "type": "vendor",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "invalidTypeForClient"
-                        }
-                ],
-                "productEvidence": [
-{
-                            "type": "product",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "invalidTypeForClient"
-                    }
                 ],
                 "versionEvidence": [
                 ]
@@ -401,35 +172,6 @@
 
         },{
             "isVirtual": false,
-            "fileName": "passwordProtected.zip",
-            "filePath": "\/src\/target\/juice-shop\/test\/files\/passwordProtected.zip"
-,"md5": "1feb9c337e0f374f71b2e130f6b2bd35",
-            "sha1": "56d6c4ed6ea28d42bd6b2fedb363d2e115a3dae9",
-            "sha256": "f03270506ad662e27bf9f6686e3e0b4f357e85513db790b3d9fe361c74a3acf7"            ,"evidenceCollected": {
-                "vendorEvidence": [
-{
-                            "type": "vendor",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "passwordProtected"
-                        }
-                ],
-                "productEvidence": [
-{
-                            "type": "product",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "passwordProtected"
-                    }
-                ],
-                "versionEvidence": [
-                ]
-            }
-
-        },{
-            "isVirtual": false,
             "fileName": "stats.min.js",
             "filePath": "\/src\/target\/juice-shop\/frontend\/src\/assets\/private\/stats.min.js"
 ,"md5": "b4d8a0e448a30774be308d1f66d40477",
@@ -453,35 +195,6 @@
                 "vendorEvidence": [
                 ],
                 "productEvidence": [
-                ],
-                "versionEvidence": [
-                ]
-            }
-
-        },{
-            "isVirtual": false,
-            "fileName": "videoExploit.zip",
-            "filePath": "\/src\/target\/juice-shop\/test\/files\/videoExploit.zip"
-,"md5": "bebb86cecec0bab245a3d18047ef33df",
-            "sha1": "a6c420d51428ab13920b51f9bd7d30520cd4e2d1",
-            "sha256": "2ee6c4c50407d385edc10d0240cb2090551bf92ed99bb2e4bf81244430f3a88a"            ,"evidenceCollected": {
-                "vendorEvidence": [
-{
-                            "type": "vendor",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "videoExploit"
-                        }
-                ],
-                "productEvidence": [
-{
-                            "type": "product",
-                            "confidence": "HIGH",
-                            "source": "file",
-                            "name": "name",
-                            "value": "videoExploit"
-                    }
                 ],
                 "versionEvidence": [
                 ]

@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Preparar código do Juice Shop
         shell: pwsh
         run: |
@@ -54,16 +54,66 @@ jobs:
             --expect pass
       - name: Publicar relatórios SAST
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: semgrep-red-green
           path: reports/semgrep-*.json
+
+  sca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - name: Preparar código e diretórios do Dependency-Check
+        shell: pwsh
+        run: |
+          ./scripts/fetch-target.ps1
+          New-Item -ItemType Directory -Force ./reports/dependency-check | Out-Null
+          New-Item -ItemType Directory -Force ./.dependency-check-data | Out-Null
+          Remove-Item -Force ./reports/dependency-check/* -ErrorAction SilentlyContinue
+          chmod a+rwx ./reports/dependency-check ./.dependency-check-data
+      - name: Definir chave semanal da base de CVEs
+        id: odc-cache-key
+        shell: bash
+        run: echo "week=$(date -u +%G-%V)" >> "$GITHUB_OUTPUT"
+      - name: Restaurar base de CVEs
+        uses: actions/cache@v5
+        with:
+          path: .dependency-check-data
+          key: dependency-check-13-${{ runner.os }}-${{ steps.odc-cache-key.outputs.week }}
+          restore-keys: |
+            dependency-check-13-${{ runner.os }}-
+      - name: Executar Dependency-Check no Juice Shop
+        shell: pwsh
+        run: |
+          docker run --rm `
+            -v "${{ github.workspace }}/target/juice-shop:/src/target/juice-shop:ro" `
+            -v "${{ github.workspace }}/reports/dependency-check:/report" `
+            -v "${{ github.workspace }}/.dependency-check-data:/usr/share/dependency-check/data" `
+            owasp/dependency-check:13.0.0 `
+            --scan /src/target/juice-shop `
+            --exclude '**/test/files/**' `
+            --out /report `
+            --format HTML `
+            --format JSON `
+            --format SARIF `
+            --project "OWASP Juice Shop v20.2.0 - Grupo 4" `
+            --nvdDatafeed "https://dependency-check.github.io/DependencyCheck_Builder/nvd_cache/nvdcve-{0}.json.gz" `
+            --disableOssIndex `
+            --enableExperimental `
+            --failOnCVSS 7
+      - name: Publicar relatórios SCA
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: dependency-check-juice-shop
+          path: reports/dependency-check/
 
   dast:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Iniciar Juice Shop local
         run: docker compose up -d juice-shop
       - name: Executar ZAP por comando
@@ -97,7 +147,7 @@ jobs:
         run: docker compose --profile tools down --remove-orphans
       - name: Publicar relatórios DAST
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: zap-juice-shop
           path: reports/zap-juice-shop*

@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Preparar código do Juice Shop
         shell: pwsh
@@ -59,7 +59,7 @@ jobs:
 
       - name: Publicar relatorio do Semgrep
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: semgrep-${{ inputs.scenario }}
           path: reports/semgrep-${{ inputs.scenario }}.json

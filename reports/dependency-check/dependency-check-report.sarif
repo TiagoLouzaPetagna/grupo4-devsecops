@@ -17,10 +17,10 @@
           "npm": "This report may contain data retrieved from the the Github Advisory Database (via NPM Audit API): https://github.com/advisories/",
           "retirejs": "This report may contain data retrieved from the RetireJS community: https://retirejs.github.io/retire.js/",
           "ossindex": "This report may contain data retrieved from the Sonatype Guide OSS Index API: https://www.sonatype.com/products/sonatype-guide/oss-index-users"
-            ,"NVD API Last Checked": "2026-09-15T15:37:55Z"
-            ,"NVD API Last Modified": "2026-09-15T15:29:13Z"
-            ,"NVD Cache Last Checked": "2026-09-15T15:37:55Z"
-            ,"NVD Cache Last Modified": "2026-09-15T15:29:13Z"
+            ,"NVD API Last Checked": "2026-09-16T18:08:38Z"
+            ,"NVD API Last Modified": "2026-09-16T15:19:45Z"
+            ,"NVD Cache Last Checked": "2026-09-16T18:08:38Z"
+            ,"NVD Cache Last Modified": "2026-09-16T15:19:45Z"
           }
         }
       },
@@ -93,34 +93,12 @@
         }
 ,{
           "location": {
-            "uri": "file://\/src\/target\/juice-shop\/test\/files\/arbitraryFileWrite.zip"
-          },
-          "hashes": {
-            "md5": "b37d74ef19c7e449f586dc67fb512500",
-            "sha1": "c2b37ad2110bf77aaa4f38aadced93ffa4384b0e",
-            "sha256": "599571c7fb6c0ab3afd8cb9585527bcd2c07a2bb9cf9068b5a3625ead91fd9d0"
-          },          "properties": {
-          }
-        }
-,{
-          "location": {
             "uri": "file://\/src\/target\/juice-shop\/frontend\/src\/assets\/private\/dat.gui.min.js"
           },
           "hashes": {
             "md5": "af36d65ba1df03365da03658de64dbcc",
             "sha1": "67de6b39dcaeb4996b10e95e2d3b3248d19378ca",
             "sha256": "25c1dee52120779138f4498bb4544e967fa712eae9f17b7353a729f34dd04d1b"
-          },          "properties": {
-          }
-        }
-,{
-          "location": {
-            "uri": "file://\/src\/target\/juice-shop\/test\/files\/invalidTypeForClient.exe"
-          },
-          "hashes": {
-            "md5": "2319ac34f4848755a639fd524038dfd3",
-            "sha1": "3082a2f97b22b4602e8d39083eef2ca0f7e54c4c",
-            "sha256": "c90232586b801f9558a76f2f963eccd831d9fe6775e4c8f1446b2331aa2132f2"
           },          "properties": {
           }
         }
@@ -148,17 +126,6 @@
         }
 ,{
           "location": {
-            "uri": "file://\/src\/target\/juice-shop\/test\/files\/passwordProtected.zip"
-          },
-          "hashes": {
-            "md5": "1feb9c337e0f374f71b2e130f6b2bd35",
-            "sha1": "56d6c4ed6ea28d42bd6b2fedb363d2e115a3dae9",
-            "sha256": "f03270506ad662e27bf9f6686e3e0b4f357e85513db790b3d9fe361c74a3acf7"
-          },          "properties": {
-          }
-        }
-,{
-          "location": {
             "uri": "file://\/src\/target\/juice-shop\/frontend\/src\/assets\/private\/stats.min.js"
           },
           "hashes": {
@@ -176,17 +143,6 @@
             "md5": "d51f7c3507188c80124647d5269feb08",
             "sha1": "3c42fde9fb6c3936ab83b8c772d6416f0ae5fb3d",
             "sha256": "bedef136bc693b8db072a75691de1970e326d00a54eea514b3605c1e1018afc5"
-          },          "properties": {
-          }
-        }
-,{
-          "location": {
-            "uri": "file://\/src\/target\/juice-shop\/test\/files\/videoExploit.zip"
-          },
-          "hashes": {
-            "md5": "bebb86cecec0bab245a3d18047ef33df",
-            "sha1": "a6c420d51428ab13920b51f9bd7d30520cd4e2d1",
-            "sha256": "2ee6c4c50407d385edc10d0240cb2090551bf92ed99bb2e4bf81244430f3a88a"
           },          "properties": {
           }
         }

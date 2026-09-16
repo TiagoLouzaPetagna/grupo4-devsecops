@@ -20,11 +20,11 @@ Pacote de apoio para o estudo e o laboratório das ferramentas definidas para o 
 | Categoria | Ferramenta | Papel na entrega |
 |---|---|---|
 | SAST | Semgrep | Análise estática e gate red/green |
-| SCA | OWASP Dependency-Check | Estudo comparativo e exemplo Maven |
+| SCA | OWASP Dependency-Check | Análise das dependências observáveis no Juice Shop |
 | IaC | Checkov | Estudo comparativo e exemplo Terraform |
 | DAST | OWASP ZAP | Varredura dinâmica automatizada |
 
-O alvo do laboratório é o **OWASP Juice Shop v20.2.0**, aplicação deliberadamente insegura mantida pela OWASP. A imagem oficial roda somente em `127.0.0.1:3000`, dentro de uma rede Docker isolada. O Semgrep analisa o código-fonte oficial do mesmo release.
+O alvo do laboratório é o **OWASP Juice Shop v20.2.0**, aplicação deliberadamente insegura mantida pela OWASP. A imagem oficial roda somente em `127.0.0.1:3000`, dentro de uma rede Docker isolada. Semgrep, Dependency-Check e Checkov analisam artefatos do código-fonte oficial do mesmo release; o ZAP testa a aplicação local em execução.
 
 ## Estrutura
 
@@ -35,7 +35,7 @@ O alvo do laboratório é o **OWASP Juice Shop v20.2.0**, aplicação deliberada
 - `scripts/prepare-green.ps1`: cria uma cópia com correção parametrizada da busca SQL.
 - `scripts/quality-gate.mjs`: bloqueia achados HIGH/CRITICAL.
 - `analysis/ACHADOS.md`: classificação e tratamento de três achados reais.
-- `examples`: demonstrações opcionais de Dependency-Check e Checkov.
+- `examples/iac`: exemplo Terraform complementar para o Checkov.
 - `USO-DE-IA.md`: declaração transparente de apoio por IA.
 
 ## Pré-requisitos
@@ -64,8 +64,8 @@ docker pull owasp/dependency-check:13.0.0
 ```
 
 O `docker compose --profile tools pull` baixa as imagens do Juice Shop, Semgrep,
-OWASP ZAP e do executor Node usado pelo quality gate. Os dois comandos seguintes
-baixam Checkov e OWASP Dependency-Check, usados nas execuções complementares.
+OWASP ZAP e do executor Node usado pelo quality gate. Os comandos seguintes
+baixam Checkov e OWASP Dependency-Check.
 
 ## Execução do laboratório
 
@@ -117,6 +117,15 @@ docker compose --profile tools run --rm gate node /workspace/scripts/quality-gat
   --expect pass
 ```
 
+### OWASP Dependency-Check no Juice Shop
+
+O Dependency-Check analisa diretamente o código oficial baixado em
+`target/juice-shop`. O grupo não adiciona uma biblioteca vulnerável separada.
+A base de CVEs deve ser atualizada antes da aula e mantida no volume Docker
+`grupo4-odc-data`; o comando apresentado em aula usa essa base em cache.
+
+Os comandos completos de atualização, scan e gate CVSS estão no `LAB.md`.
+
 ### OWASP ZAP
 
 ```powershell
@@ -129,7 +138,7 @@ docker compose --profile tools run --rm gate node /workspace/scripts/quality-gat
 docker compose --profile tools down --remove-orphans
 ```
 
-Os comandos diretos de Dependency-Check e Checkov estão no `LAB.md`.
+O comando direto do Checkov também está no `LAB.md`.
 
 Para demonstrar uma execução realmente vermelha e outra verde no GitHub Actions,
 abra a action **Grupo 4 — demonstração red/green**, escolha **Run workflow** e
@@ -140,6 +149,7 @@ Resultados validados em 15 set. 2026:
 - **SAST red:** a regra comunitária de injeção via Sequelize encontrou 1 ERROR,
   normalizado como HIGH; gate bloqueado.
 - **SAST green:** 0 HIGH/CRITICAL após parametrização com `replacements`; gate aprovado.
+- **SCA:** o Dependency-Check examinou somente o Juice Shop e observou 11 dependências, 0 CVEs e 0 exceções. O gate `--failOnCVSS 7` foi aprovado, mas a ausência de lockfile e `node_modules` limita a cobertura e permanece registrada no resultado.
 - **DAST:** 11 tipos de alerta, incluindo 1 HIGH de SQL Injection; gate bloqueado. O ZAP gerou JSON, HTML e SARIF.
 
 Os relatórios ficam em `reports/`. A pasta `target/` é gerada e não deve ser enviada como autoria do grupo.
