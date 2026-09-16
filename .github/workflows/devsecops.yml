@@ -69,9 +69,21 @@ jobs:
       - name: Executar ZAP por comando
         shell: pwsh
         run: |
+          $reports = @(
+            './reports/zap-juice-shop.html',
+            './reports/zap-juice-shop.json',
+            './reports/zap-juice-shop.sarif.json'
+          )
+          Remove-Item -Force $reports -ErrorAction SilentlyContinue
+          chmod a+rwx ./reports
           docker compose --profile tools run --rm zap
           $zapExit = $LASTEXITCODE
           if ($zapExit -gt 1) { exit $zapExit }
+          foreach ($report in $reports) {
+            if (-not (Test-Path $report -PathType Leaf)) {
+              throw "O ZAP não gerou o relatório esperado: $report"
+            }
+          }
           exit 0
       - name: Confirmar bloqueio DAST
         shell: pwsh
