@@ -2,7 +2,7 @@
 
 Esta pasta recebe os relatórios reais produzidos pelo Semgrep e pelo OWASP ZAP.
 
-Arquivos esperados após `scripts/run-lab.ps1 -Mode all`:
+Arquivos esperados após executar os comandos de `LAB.md`:
 
 - `semgrep-red.json`
 - `semgrep-green.json`
@@ -12,7 +12,7 @@ Arquivos esperados após `scripts/run-lab.ps1 -Mode all`:
 
 Execução validada em 15 set. 2026:
 
-- Semgrep red: 1 HIGH, gate bloqueado como esperado;
+- Semgrep red: 1 ERROR comunitário normalizado como HIGH, gate bloqueado como esperado;
 - Semgrep green: 0 HIGH/CRITICAL, gate aprovado;
 - ZAP: 11 tipos de alerta (1 HIGH, 4 MEDIUM, 3 LOW e 3 INFO), gate bloqueado como esperado.
 

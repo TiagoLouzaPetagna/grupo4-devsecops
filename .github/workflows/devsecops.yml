@@ -14,12 +14,44 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Validar bloqueio do código vulnerável
+      - name: Preparar código do Juice Shop
         shell: pwsh
-        run: ./scripts/run-lab.ps1 -Mode sast-red
-      - name: Validar aprovação após correção
+        run: |
+          ./scripts/fetch-target.ps1
+          New-Item -ItemType Directory -Force ./reports | Out-Null
+      - name: Semgrep geral no código vulnerável
         shell: pwsh
-        run: ./scripts/run-lab.ps1 -Mode sast-green
+        run: |
+          docker compose --profile tools run --rm semgrep semgrep scan `
+            --config auto `
+            --json `
+            --output /workspace/reports/semgrep-red.json `
+            /workspace/target/juice-shop/routes/search.ts
+      - name: Confirmar bloqueio do cenário vulnerável
+        shell: pwsh
+        run: |
+          docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+            --semgrep /workspace/reports/semgrep-red.json `
+            --threshold HIGH `
+            --expect fail
+      - name: Preparar correção parametrizada
+        shell: pwsh
+        run: ./scripts/prepare-green.ps1
+      - name: Semgrep geral no código corrigido
+        shell: pwsh
+        run: |
+          docker compose --profile tools run --rm semgrep semgrep scan `
+            --config auto `
+            --json `
+            --output /workspace/reports/semgrep-green.json `
+            /workspace/target/juice-shop-fixed/routes/search.ts
+      - name: Confirmar aprovação do cenário corrigido
+        shell: pwsh
+        run: |
+          docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+            --semgrep /workspace/reports/semgrep-green.json `
+            --threshold HIGH `
+            --expect pass
       - name: Publicar relatórios SAST
         if: always()
         uses: actions/upload-artifact@v4
@@ -32,13 +64,28 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Executar ZAP no Juice Shop local
+      - name: Iniciar Juice Shop local
+        run: docker compose up -d juice-shop
+      - name: Executar ZAP por comando
         shell: pwsh
-        run: ./scripts/run-lab.ps1 -Mode dast
+        run: |
+          docker compose --profile tools run --rm zap
+          $zapExit = $LASTEXITCODE
+          if ($zapExit -gt 1) { exit $zapExit }
+          exit 0
+      - name: Confirmar bloqueio DAST
+        shell: pwsh
+        run: |
+          docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+            --zap /workspace/reports/zap-juice-shop.json `
+            --threshold HIGH `
+            --expect fail
+      - name: Encerrar laboratório
+        if: always()
+        run: docker compose --profile tools down --remove-orphans
       - name: Publicar relatórios DAST
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: zap-juice-shop
           path: reports/zap-juice-shop*
-

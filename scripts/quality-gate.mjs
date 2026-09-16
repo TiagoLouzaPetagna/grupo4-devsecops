@@ -4,7 +4,7 @@ import path from "node:path";
 const severityRank = { LOW: 1, MEDIUM: 2, HIGH: 3, CRITICAL: 4 };
 
 function usage() {
-  console.log("Uso: node quality-gate.mjs --semgrep <json> --zap <json> [--threshold HIGH] [--expect pass|fail]");
+  console.log("Uso: node quality-gate.mjs [--semgrep <json>] [--zap <json>] [--threshold HIGH] [--expect pass|fail]");
 }
 
 function parseArgs(values) {
@@ -28,13 +28,12 @@ function readJson(filePath) {
 function normalizeSemgrep(report) {
   if (!report) return [];
   return (report.results || []).map((finding) => {
-    const metadataSeverity = finding.extra?.metadata?.devsecops_severity;
     const semgrepSeverity = String(finding.extra?.severity || "INFO").toUpperCase();
     const mapped = { INFO: "LOW", WARNING: "MEDIUM", ERROR: "HIGH" }[semgrepSeverity] || "LOW";
     return {
       source: "Semgrep",
       id: finding.check_id || "semgrep-unknown",
-      severity: String(metadataSeverity || mapped).toUpperCase(),
+      severity: mapped,
       location: `${finding.path || "?"}:${finding.start?.line || "?"}`,
       message: finding.extra?.message || "Sem mensagem",
     };
@@ -103,4 +102,3 @@ try {
   usage();
   process.exit(2);
 }
-

@@ -22,11 +22,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Preparar código do Juice Shop
+        shell: pwsh
+        run: |
+          ./scripts/fetch-target.ps1
+          New-Item -ItemType Directory -Force ./reports | Out-Null
+
       - name: Executar cenario vulneravel
         if: ${{ inputs.scenario == 'red' }}
         shell: pwsh
         run: |
-          ./scripts/run-lab.ps1 -Mode sast-red
+          docker compose --profile tools run --rm semgrep semgrep scan `
+            --config auto `
+            --json `
+            --output /workspace/reports/semgrep-red.json `
+            /workspace/target/juice-shop/routes/search.ts
           docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
             --semgrep /workspace/reports/semgrep-red.json `
             --threshold HIGH `
@@ -35,7 +45,17 @@ jobs:
       - name: Executar cenario corrigido
         if: ${{ inputs.scenario == 'green' }}
         shell: pwsh
-        run: ./scripts/run-lab.ps1 -Mode sast-green
+        run: |
+          ./scripts/prepare-green.ps1
+          docker compose --profile tools run --rm semgrep semgrep scan `
+            --config auto `
+            --json `
+            --output /workspace/reports/semgrep-green.json `
+            /workspace/target/juice-shop-fixed/routes/search.ts
+          docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+            --semgrep /workspace/reports/semgrep-green.json `
+            --threshold HIGH `
+            --expect pass
 
       - name: Publicar relatorio do Semgrep
         if: always()

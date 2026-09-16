@@ -29,11 +29,9 @@ O alvo do laboratório é o **OWASP Juice Shop v20.2.0**, aplicação deliberada
 
 - `LAB.md`: roteiro reproduzível e divisão dos 12 minutos.
 - `docker-compose.yml`: Juice Shop, Semgrep, ZAP e executor do gate.
-- `security/semgrep.yml`: regras para SQL Injection, `eval()` e bypass de sanitização Angular.
 - `security/zap-juice-shop.yaml`: spider, AJAX spider, active scan e relatórios.
 - `scripts/fetch-target.ps1`: baixa o código oficial fixado em v20.2.0.
 - `scripts/prepare-green.ps1`: cria uma cópia com correção parametrizada da busca SQL.
-- `scripts/run-lab.ps1`: executa SAST vermelho, SAST verde e DAST.
 - `scripts/quality-gate.mjs`: bloqueia achados HIGH/CRITICAL.
 - `analysis/ACHADOS.md`: classificação e tratamento de três achados reais.
 - `examples`: demonstrações opcionais de Dependency-Check e Checkov.
@@ -68,27 +66,69 @@ O `docker compose --profile tools pull` baixa as imagens do Juice Shop, Semgrep,
 OWASP ZAP e do executor Node usado pelo quality gate. Os dois comandos seguintes
 baixam Checkov e OWASP Dependency-Check, usados nas execuções complementares.
 
-## Execução rápida
+## Execução do laboratório
 
-Na raiz deste projeto, o participante digita somente:
+Os scanners são executados diretamente por comandos Docker. Nenhum script inicia
+Semgrep, ZAP, Dependency-Check ou Checkov. Os scripts restantes apenas baixam o
+código, preparam a cópia corrigida e interpretam os relatórios no quality gate.
+
+Na raiz do projeto, prepare o alvo e a pasta de relatórios:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-.\scripts\run-lab.ps1 -Mode all
+.\scripts\fetch-target.ps1
+New-Item -ItemType Directory -Force .\reports | Out-Null
 ```
 
-Esse script verifica o Docker, baixa o código oficial do Juice Shop quando
-necessário, executa Semgrep ou ZAP, grava os relatórios e chama o quality gate.
-Os comandos internos de `docker compose`, `semgrep scan`, `zap.sh` e
-`quality-gate.mjs` já estão automatizados em `scripts/run-lab.ps1`.
+### Semgrep red com regras gerais
 
-Execuções separadas:
+`--config auto` seleciona regras comunitárias adequadas à linguagem. O grupo não
+mantém arquivo de regras próprio. O caminho ao final limita somente o alvo do
+red/green a um arquivo, para que a correção desse arquivo possa ser verificada.
 
 ```powershell
-.\scripts\run-lab.ps1 -Mode sast-red
-.\scripts\run-lab.ps1 -Mode sast-green
-.\scripts\run-lab.ps1 -Mode dast
+docker compose --profile tools run --rm semgrep semgrep scan `
+  --config auto `
+  --json `
+  --output /workspace/reports/semgrep-red.json `
+  /workspace/target/juice-shop/routes/search.ts
+
+docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+  --semgrep /workspace/reports/semgrep-red.json `
+  --threshold HIGH `
+  --expect fail
 ```
+
+### Correção e Semgrep green
+
+```powershell
+.\scripts\prepare-green.ps1
+
+docker compose --profile tools run --rm semgrep semgrep scan `
+  --config auto `
+  --json `
+  --output /workspace/reports/semgrep-green.json `
+  /workspace/target/juice-shop-fixed/routes/search.ts
+
+docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+  --semgrep /workspace/reports/semgrep-green.json `
+  --threshold HIGH `
+  --expect pass
+```
+
+### OWASP ZAP
+
+```powershell
+docker compose up -d juice-shop
+docker compose --profile tools run --rm zap
+docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+  --zap /workspace/reports/zap-juice-shop.json `
+  --threshold HIGH `
+  --expect fail
+docker compose --profile tools down --remove-orphans
+```
+
+Os comandos diretos de Dependency-Check e Checkov estão no `LAB.md`.
 
 Para demonstrar uma execução realmente vermelha e outra verde no GitHub Actions,
 abra a action **Grupo 4 — demonstração red/green**, escolha **Run workflow** e
@@ -96,7 +136,8 @@ execute primeiro o cenário `red` e depois o cenário `green`.
 
 Resultados validados em 15 set. 2026:
 
-- **SAST red:** 1 HIGH na interpolação SQL em `routes/search.ts`; gate bloqueado.
+- **SAST red:** a regra comunitária de injeção via Sequelize encontrou 1 ERROR,
+  normalizado como HIGH; gate bloqueado.
 - **SAST green:** 0 HIGH/CRITICAL após parametrização com `replacements`; gate aprovado.
 - **DAST:** 11 tipos de alerta, incluindo 1 HIGH de SQL Injection; gate bloqueado. O ZAP gerou JSON, HTML e SARIF.
 

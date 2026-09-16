@@ -7,7 +7,7 @@ const ROOT = "C:\\Users\\Hayom\\Documents\\CheckpointDevOps";
 const SKILL_DIR = "C:\\Users\\Hayom\\.codex\\plugins\\cache\\openai-primary-runtime\\presentations\\26.904.11930\\skills\\presentations";
 const RUNTIME_PYTHON = "C:\\Users\\Hayom\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe";
 const TMP_DIR = path.join(ROOT, ".qa", "slides-build");
-const FINAL_PPTX = path.join(ROOT, "entrega", "Apresentacao_Checkpoint_DevSecOps_Grupo4_corrigida.pptx");
+const FINAL_PPTX = path.join(ROOT, "entrega", "Apresentacao_Checkpoint_DevSecOps_Grupo4_comandos_diretos.pptx");
 
 const {
   resolvePresentationFont,
@@ -41,8 +41,6 @@ const C = {
 const EVID = path.join(ROOT, "evidencias");
 const IMAGES = {
   semgrepGeneral: path.join(EVID, "real-semgrep-terminal.png"),
-  semgrepRed: path.join(EVID, "real-semgrep-red.png"),
-  semgrepGreen: path.join(EVID, "real-semgrep-green.png"),
   dependency: path.join(EVID, "real-dependency-check.png"),
   checkov: path.join(EVID, "real-checkov-terminal.png"),
   zapRun: path.join(EVID, "real-zap-execucao.png"),
@@ -309,7 +307,7 @@ function setNotes(slide, text) {
   addText(slide, "O que analisa", 82, 170, 400, 42, { fontSize: 27, bold: true, color: C.cyan });
   addBullets(slide, ["AST e padrões estruturais", "Metavariáveis e regras específicas", "Taint analysis em modos compatíveis"], 82, 222, 480, 220, { fontSize: 27 });
   addText(slide, "Uso no laboratório", 690, 170, 430, 42, { fontSize: 27, bold: true, color: C.cyan });
-  addBullets(slide, ["Scan geral com --config auto", "Regra local para o red e green", "JSON processado pelo quality gate"], 690, 222, 470, 220, { fontSize: 27 });
+  addBullets(slide, ["Regras comunitárias com --config auto", "Mesmo conjunto no red e green", "JSON processado pelo quality gate"], 690, 222, 470, 220, { fontSize: 27 });
   addRule(slide, 82, 474, 1078);
   addText(slide, "Ponto forte", 90, 510, 230, 34, { fontSize: 20, bold: true, color: C.green });
   addText(slide, "Feedback rápido e regras legíveis", 90, 548, 430, 54, { fontSize: 27, bold: true });
@@ -333,13 +331,18 @@ function setNotes(slide, text) {
 // 9 Semgrep red
 {
   const slide = presentation.slides.add();
-  addHeader(slide, 9, "Cenário SAST red", "Quality gate", "captura do Grupo 4");
-  addImage(slide, imageBytes.semgrepRed, "Terminal do Semgrep no cenário vulnerável", 64, 152, 770, 460, "contain");
+  addHeader(slide, 9, "Cenário SAST red", "Regras comunitárias");
+  addText(slide, "Comando executado", 70, 164, 440, 40, { fontSize: 27, bold: true, color: C.cyan });
+  slide.shapes.add({ geometry: "rect", position: { left: 66, top: 220, width: 750, height: 222 }, fill: "#F0F3F5", line: { fill: C.line, width: 1 } });
+  addText(slide, "docker compose --profile tools run --rm semgrep\n  semgrep scan --config auto --json\n  --output /workspace/reports/semgrep-red.json\n  /workspace/target/juice-shop/routes/search.ts", 92, 240, 700, 182, { typeface: "Consolas", fontSize: 22, color: C.navy });
+  addText(slide, "Regra comunitária", 70, 476, 270, 34, { fontSize: 21, bold: true, color: C.muted });
+  addText(slide, "express-sequelize-injection", 70, 516, 710, 44, { typeface: "Consolas", fontSize: 27, bold: true, color: C.navy });
+  addText(slide, "routes/search.ts:23", 70, 570, 710, 38, { typeface: "Consolas", fontSize: 23, color: C.ink });
   addText(slide, "1 HIGH", 880, 188, 300, 76, { fontSize: 56, bold: true, color: C.red, alignment: "center" });
   addText(slide, "CWE-89", 880, 280, 300, 48, { fontSize: 31, bold: true, color: C.navy, alignment: "center" });
   addText(slide, "Interpolação dentro de sequelize.query em routes/search.ts:23", 872, 356, 320, 102, { fontSize: 24, color: C.ink, alignment: "center" });
   addText(slide, "Gate bloqueado", 888, 510, 290, 50, { fontSize: 30, bold: true, color: C.red, alignment: "center" });
-  setNotes(slide, "Fonte: reports/semgrep-red.json. Explique que o script usa --expect fail para confirmar que o gate detecta o bloqueador.");
+  setNotes(slide, "Fonte: reports/semgrep-red.json. O scan é digitado como comando e usa --config auto. O gate usa --expect fail apenas para confirmar que o bloqueador foi detectado.");
 }
 
 // 10 Correção
@@ -361,13 +364,17 @@ function setNotes(slide, text) {
 // 11 Semgrep green
 {
   const slide = presentation.slides.add();
-  addHeader(slide, 11, "Cenário SAST green", "Verificação da correção", "captura do Grupo 4");
-  addImage(slide, imageBytes.semgrepGreen, "Terminal do Semgrep após a consulta parametrizada", 64, 152, 770, 460, "contain");
+  addHeader(slide, 11, "Cenário SAST green", "Mesmas regras gerais");
+  addText(slide, "Comando repetido após a correção", 70, 164, 600, 40, { fontSize: 27, bold: true, color: C.cyan });
+  slide.shapes.add({ geometry: "rect", position: { left: 66, top: 220, width: 750, height: 222 }, fill: "#F0F3F5", line: { fill: C.line, width: 1 } });
+  addText(slide, "docker compose --profile tools run --rm semgrep\n  semgrep scan --config auto --json\n  --output /workspace/reports/semgrep-green.json\n  /workspace/target/juice-shop-fixed/routes/search.ts", 92, 240, 700, 182, { typeface: "Consolas", fontSize: 22, color: C.navy });
+  addText(slide, "Apenas o arquivo mudou", 70, 482, 710, 36, { fontSize: 22, bold: true, color: C.muted });
+  addText(slide, "Mesma versão do Semgrep e mesmo --config auto", 70, 530, 710, 54, { fontSize: 29, bold: true, color: C.navy });
   addText(slide, "0", 906, 184, 250, 86, { fontSize: 68, bold: true, color: C.green, alignment: "center" });
   addText(slide, "HIGH ou CRITICAL", 876, 274, 310, 42, { fontSize: 22, bold: true, color: C.muted, alignment: "center" });
   addText(slide, "Gate aprovado", 882, 372, 300, 54, { fontSize: 34, bold: true, color: C.green, alignment: "center" });
   addText(slide, "O resultado valida esse recorte. Ele não afirma que todo o Juice Shop ficou seguro.", 866, 472, 330, 112, { fontSize: 22, color: C.ink, alignment: "center" });
-  setNotes(slide, "Fonte: reports/semgrep-green.json. O green analisa a cópia corrigida de um arquivo para manter a demonstração previsível.");
+  setNotes(slide, "Fonte: reports/semgrep-green.json. O green analisa a cópia corrigida de um arquivo com o mesmo --config auto usado no red.");
 }
 
 // 12 Dependency Check
@@ -508,7 +515,7 @@ function setNotes(slide, text) {
     addText(slide, s[2], x + 14, 370, 168, 38, { fontSize: 21, color: C.muted, alignment: "center" });
     if (i < steps.length - 1) addText(slide, ">", x + 198, 300, 46, 54, { fontSize: 38, bold: true, color: C.muted, alignment: "center" });
   });
-  addText(slide, "A turma executa somente três comandos. Os comandos extensos ficam dentro dos scripts.", 140, 510, 1000, 68, { fontSize: 30, bold: true, color: C.navy, alignment: "center" });
+  addText(slide, "A turma digita os comandos dos scanners. O script permanece apenas na preparação da correção.", 140, 510, 1000, 68, { fontSize: 30, bold: true, color: C.navy, alignment: "center" });
   setNotes(slide, "Use este slide antes da demonstração para explicar a sequência e os resultados esperados.");
 }
 
@@ -517,20 +524,20 @@ function setNotes(slide, text) {
   const slide = presentation.slides.add();
   addHeader(slide, 21, "Comandos digitados pela turma", "Laboratório guiado");
   const commands = [
-    ".\\scripts\\run-lab.ps1 -Mode sast-red",
-    ".\\scripts\\run-lab.ps1 -Mode sast-green",
-    ".\\scripts\\run-lab.ps1 -Mode dast",
+    "docker compose --profile tools run --rm semgrep semgrep scan --config auto /workspace/target/juice-shop/routes/search.ts",
+    ".\\scripts\\prepare-green.ps1",
+    "docker compose --profile tools run --rm semgrep semgrep scan --config auto /workspace/target/juice-shop-fixed/routes/search.ts",
+    "docker compose up -d juice-shop\ndocker compose --profile tools run --rm zap",
   ];
   commands.forEach((cmd, i) => {
-    const y = 174 + i * 112;
-    addText(slide, String(i + 1).padStart(2, "0"), 80, y, 72, 62, { fontSize: 34, bold: true, color: C.cyan, alignment: "center" });
-    slide.shapes.add({ geometry: "rect", position: { left: 176, top: y, width: 940, height: 70 }, fill: "#F0F3F5", line: { fill: C.line, width: 1 } });
-    addText(slide, cmd, 202, y + 8, 890, 54, { typeface: "Consolas", fontSize: 25, color: C.navy });
+    const y = 150 + i * 92;
+    addText(slide, String(i + 1).padStart(2, "0"), 70, y, 72, 62, { fontSize: 32, bold: true, color: C.cyan, alignment: "center" });
+    slide.shapes.add({ geometry: "rect", position: { left: 166, top: y, width: 1010, height: 70 }, fill: "#F0F3F5", line: { fill: C.line, width: 1 } });
+    addText(slide, cmd, 190, y + 8, 962, 54, { typeface: "Consolas", fontSize: 21, color: C.navy });
   });
-  addRule(slide, 80, 520, 1060);
-  addText(slide, "Perguntas de verificação", 80, 548, 350, 36, { fontSize: 23, bold: true, color: C.red });
-  addText(slide, "1. Quantos HIGH aparecem no Semgrep red?\n2. Qual plugin do ZAP reporta a SQL Injection e qual é o CWE?", 430, 536, 730, 96, { fontSize: 23, color: C.ink });
-  setNotes(slide, "Os comandos internos de Docker, Semgrep, ZAP e quality-gate.mjs já estão automatizados em scripts/run-lab.ps1.");
+  addRule(slide, 80, 530, 1080);
+  addText(slide, "Os comandos completos do scan e do quality gate estão no LAB.md e no apêndice do relatório.", 120, 556, 1040, 62, { fontSize: 27, bold: true, color: C.navy, alignment: "center" });
+  setNotes(slide, "Nenhum script inicia os scanners. fetch-target.ps1 baixa o código, prepare-green.ps1 cria a cópia corrigida e quality-gate.mjs interpreta os JSON.");
 }
 
 // 22 CI red green
@@ -540,7 +547,7 @@ function setNotes(slide, text) {
   addText(slide, "Cenário red", 94, 170, 420, 44, { fontSize: 32, bold: true, color: C.red });
   addBullets(slide, ["Escaneia o arquivo vulnerável", "Reprocessa o JSON com expectativa de aprovação", "A Action falha por encontrar HIGH"], 94, 226, 480, 220, { fontSize: 26 });
   addText(slide, "Cenário green", 700, 170, 420, 44, { fontSize: 32, bold: true, color: C.green });
-  addBullets(slide, ["Cria a cópia parametrizada", "Repete a mesma regra", "A Action termina sem bloqueadores"], 700, 226, 480, 220, { fontSize: 26 });
+  addBullets(slide, ["Cria a cópia parametrizada", "Repete o mesmo --config auto", "A Action termina sem bloqueadores"], 700, 226, 480, 220, { fontSize: 26 });
   addRule(slide, 94, 474, 1086);
   addText(slide, "Workflow manual", 94, 514, 250, 34, { fontSize: 20, bold: true, color: C.cyan });
   addText(slide, ".github/workflows/red-green-demo.yml", 94, 552, 530, 44, { typeface: "Consolas", fontSize: 23, color: C.navy });
@@ -661,7 +668,7 @@ await finalizePresentation({
   requiredNativeChartOwnerSlides: requirements.requiredNativeChartOwnerSlides,
   fontPolicy,
   verifyArtifactToolImport: true,
-  receiptPath: path.join(stagingDir, "Apresentacao_Checkpoint_DevSecOps_Grupo4_corrigida.validation.json"),
+  receiptPath: path.join(stagingDir, "Apresentacao_Checkpoint_DevSecOps_Grupo4_comandos_diretos.validation.json"),
 });
 
 for (let i = 0; i < presentation.slides.items.length; i += 1) {

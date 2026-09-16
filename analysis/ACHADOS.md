@@ -20,7 +20,7 @@ Os dados abaixo foram extraídos dos relatórios versionados em `reports/`. As c
 
 ## 1. SQL Injection na busca de produtos
 
-- **SAST:** `target/juice-shop/routes/search.ts:23` constrói SQL por interpolação dentro de `models.sequelize.query(...)`; a origem inclui `req.query.q`.
+- **SAST:** a regra comunitária `javascript.sequelize.security.audit.sequelize-injection-express.express-sequelize-injection`, carregada por `--config auto`, identificou que `target/juice-shop/routes/search.ts:23` leva entrada de `req.query.q` até `models.sequelize.query(...)`.
 - **DAST:** regra ZAP 40018 em `GET /rest/products/search`, parâmetro `q`, payload registrado como `'(` e resposta `HTTP/1.1 500 Internal Server Error`.
 - **Confiança:** o ZAP marcou `High (Low)`, pois uma resposta 500 isolada não prova exploração. A confirmação independente do fluxo source-to-sink pelo Semgrep reduz a incerteza e sustenta a classificação como verdadeiro positivo no alvo de treinamento.
 - **Impacto:** manipulação da consulta, leitura indevida e possível alteração de dados, conforme privilégios do banco.
@@ -60,9 +60,11 @@ Os dados abaixo foram extraídos dos relatórios versionados em `reports/`. As c
 
 | Métrica | Valor observado |
 |---|---:|
-| Tempo total interno do Semgrep red | 0,759 s |
+| Regras comunitárias executadas no Semgrep red | 210 |
+| Tempo total interno do Semgrep red | 4,242 s |
 | HIGH/CRITICAL no Semgrep red | 1 / 0 |
-| Tempo total interno do Semgrep green | 0,730 s |
+| Regras comunitárias executadas no Semgrep green | 210 |
+| Tempo total interno do Semgrep green | 3,542 s |
 | HIGH/CRITICAL no Semgrep green | 0 / 0 |
 | Spider tradicional | 18 s; 101 URLs |
 | AJAX spider | 34 s; 233 URLs |
@@ -73,7 +75,7 @@ Os dados abaixo foram extraídos dos relatórios versionados em `reports/`. As c
 
 ## Limitações
 
-- O Semgrep red/green foi intencionalmente restrito ao arquivo da busca para uma demonstração determinística; não representa cobertura completa do repositório.
+- O Semgrep red/green usa regras comunitárias gerais com `--config auto`. O alvo foi intencionalmente restrito ao arquivo da busca para uma demonstração determinística; esse recorte não representa cobertura completa do repositório.
 - O active scan atingiu o limite de quatro minutos e foi limitado às regras de SQL Injection e XSS refletido.
 - O DAST não autenticou usuários nem percorreu todos os estados da aplicação.
 - Alertas automáticos não substituem reprodução manual, análise de fluxo e priorização pelo contexto de negócio.
