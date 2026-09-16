@@ -1,0 +1,83 @@
+env:
+  contexts:
+    - name: juice-shop-local
+      urls:
+        - http://juice-shop:3000
+      includePaths:
+        - http://juice-shop:3000.*
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+
+jobs:
+  - type: spider
+    parameters:
+      context: juice-shop-local
+      url: http://juice-shop:3000
+      maxDuration: 1
+
+  - type: spiderAjax
+    parameters:
+      context: juice-shop-local
+      url: http://juice-shop:3000
+      maxDuration: 2
+      maxCrawlDepth: 5
+      numberOfBrowsers: 1
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 1
+
+  - type: activeScan
+    parameters:
+      context: juice-shop-local
+      url: http://juice-shop:3000
+      maxRuleDurationInMins: 1
+      maxScanDurationInMins: 4
+      addQueryParam: false
+    policyDefinition:
+      defaultStrength: Medium
+      defaultThreshold: Medium
+      rules:
+        - id: 40012
+          name: Cross Site Scripting (Reflected)
+          strength: Medium
+          threshold: Medium
+        - id: 40018
+          name: SQL Injection
+          strength: Medium
+          threshold: Medium
+
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 1
+
+  - type: report
+    parameters:
+      template: traditional-html-plus
+      reportDir: /zap/wrk/reports
+      reportFile: zap-juice-shop.html
+      reportTitle: Grupo 4 — OWASP ZAP em Juice Shop v20.2.0
+
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: /zap/wrk/reports
+      reportFile: zap-juice-shop.json
+      reportTitle: Grupo 4 — OWASP ZAP em Juice Shop v20.2.0
+
+  - type: report
+    parameters:
+      template: sarif-json
+      reportDir: /zap/wrk/reports
+      reportFile: zap-juice-shop.sarif.json
+      reportTitle: Grupo 4 — OWASP ZAP em Juice Shop v20.2.0
+
+  - type: exitStatus
+    parameters:
+      errorLevel: High
+      warnLevel: Medium
+      warnExitValue: 0
+      errorExitValue: 1
+

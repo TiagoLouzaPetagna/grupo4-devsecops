@@ -1,0 +1,45 @@
+name: Grupo 4 - demonstracao red-green
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: Cenario que sera demonstrado
+        required: true
+        default: green
+        type: choice
+        options:
+          - red
+          - green
+
+permissions:
+  contents: read
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Executar cenario vulneravel
+        if: ${{ inputs.scenario == 'red' }}
+        shell: pwsh
+        run: |
+          ./scripts/run-lab.ps1 -Mode sast-red
+          docker compose --profile tools run --rm gate node /workspace/scripts/quality-gate.mjs `
+            --semgrep /workspace/reports/semgrep-red.json `
+            --threshold HIGH `
+            --expect pass
+
+      - name: Executar cenario corrigido
+        if: ${{ inputs.scenario == 'green' }}
+        shell: pwsh
+        run: ./scripts/run-lab.ps1 -Mode sast-green
+
+      - name: Publicar relatorio do Semgrep
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-${{ inputs.scenario }}
+          path: reports/semgrep-${{ inputs.scenario }}.json

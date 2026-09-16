@@ -1,0 +1,113 @@
+﻿ Network grupo4-devsecops_isolated-lab Creating 
+ Network grupo4-devsecops_isolated-lab Creating 
+ Network grupo4-devsecops_isolated-lab Created 
+ Network grupo4-devsecops_isolated-lab Created 
+ Container grupo4-devsecops-juice-shop-1 Creating 
+ Container grupo4-devsecops-juice-shop-1 Created 
+ Container grupo4-devsecops-juice-shop-1 Starting 
+ Container grupo4-devsecops-juice-shop-1 Started 
+ Container grupo4-devsecops-juice-shop-1 Running 
+ Container grupo4-devsecops-juice-shop-1 Waiting 
+ Container grupo4-devsecops-juice-shop-1 Healthy 
+ Container grupo4-devsecops-zap-run-9466d203559c Creating 
+ Container grupo4-devsecops-zap-run-9466d203559c Created 
+Found Java version 17.0.20
+Available memory: 7905 MB
+Using JVM args: -Xmx1976m
+712 [main] INFO  org.parosproxy.paros.Constant - Copying default configuration to /home/zap/.ZAP/config.xml
+903 [main] INFO  org.parosproxy.paros.Constant - Creating directory /home/zap/.ZAP/session
+904 [main] INFO  org.parosproxy.paros.Constant - Creating directory /home/zap/.ZAP/dirbuster
+904 [main] INFO  org.parosproxy.paros.Constant - Creating directory /home/zap/.ZAP/fuzzers
+905 [main] INFO  org.parosproxy.paros.Constant - Creating directory /home/zap/.ZAP/plugin
+Sept 16, 2026 12:41:19 AM java.util.prefs.FileSystemPreferences$1 run
+INFO: Created user preferences directory.
+Job spider set context = juice-shop-local
+Job spider set url = http://juice-shop:3000
+Job spider set maxDuration = 1
+Job spiderAjax set context = juice-shop-local
+Job spiderAjax set url = http://juice-shop:3000
+Job spiderAjax set maxDuration = 2
+Job spiderAjax set maxCrawlDepth = 5
+Job spiderAjax set numberOfBrowsers = 1
+Job passiveScan-wait set maxDuration = 1
+Job activeScan set context = juice-shop-local
+Job activeScan set url = http://juice-shop:3000
+Job activeScan set maxRuleDurationInMins = 1
+Job activeScan set maxScanDurationInMins = 4
+Job activeScan set addQueryParam = false
+Job activeScan set defaultStrength = Medium
+Job activeScan set defaultThreshold = Medium
+Job passiveScan-wait set maxDuration = 1
+Job report set template = traditional-html-plus
+Job report set reportDir = /zap/wrk/reports
+Job report set reportFile = zap-juice-shop.html
+Job report set reportTitle = Grupo 4 — OWASP ZAP em Juice Shop v20.2.0
+Job report set template = traditional-json
+Job report set reportDir = /zap/wrk/reports
+Job report set reportFile = zap-juice-shop.json
+Job report set reportTitle = Grupo 4 — OWASP ZAP em Juice Shop v20.2.0
+Job report set template = sarif-json
+Job report set reportDir = /zap/wrk/reports
+Job report set reportFile = zap-juice-shop.sarif.json
+Job report set reportTitle = Grupo 4 — OWASP ZAP em Juice Shop v20.2.0
+Job exitStatus set errorLevel = High
+Job exitStatus set warnLevel = Medium
+Job exitStatus set warnExitValue = 0
+Job exitStatus set errorExitValue = 1
+Job spider started
+Job spider requesting URL http://juice-shop:3000
+Job spider found 101 URLs
+Job spider finished, time taken: 00:00:18
+Job spiderAjax started
+Job spiderAjax found 234 URLs
+Job spiderAjax finished, time taken: 00:00:37
+Job passiveScan-wait started
+Job passiveScan-wait finished, time taken: 00:00:03
+Job activeScan started
+Job activeScan set default strength to MEDIUM
+Job activeScan set default threshold to MEDIUM
+Job activeScan set rule 40012 strength to MEDIUM
+Job activeScan set rule 40012 threshold to MEDIUM
+Job activeScan set rule 40018 strength to MEDIUM
+Job activeScan set rule 40018 threshold to MEDIUM
+Job activeScan finished, time taken: 00:03:48
+Job passiveScan-wait started
+Job passiveScan-wait finished, time taken: 00:00:00
+Job report started
+Job report generated report /zap/wrk/reports/zap-juice-shop.html
+Job report finished, time taken: 00:00:02
+Job report started
+Job report generated report /zap/wrk/reports/zap-juice-shop.json
+Job report finished, time taken: 00:00:00
+Job report started
+Job report generated report /zap/wrk/reports/zap-juice-shop.sarif.json
+Job report finished, time taken: 00:00:01
+Job exitStatus started
+An alert has been raised with a risk of at least: Medium
+Job exitStatus finished, time taken: 00:00:00
+Automation plan failures:
+	An alert has been raised with a risk of at least: High
+Automation plan warnings:
+	An alert has been raised with a risk of at least: Medium
+An alert has been raised with a risk of at least: High
+
+ Network grupo4-devsecops_default Creating 
+ Network grupo4-devsecops_default Creating 
+ Network grupo4-devsecops_default Created 
+ Network grupo4-devsecops_default Created 
+ Container grupo4-devsecops-gate-run-ce32c133cf63 Creating 
+ Container grupo4-devsecops-gate-run-ce32c133cf63 Created 
+
+Gate DevSecOps — limiar HIGH
+Achados totais: 11 | Bloqueadores: 1
+- [HIGH] OWASP ZAP 40018 — SQL Injection (http://juice-shop:3000)
+SUCESSO DO TESTE: o gate bloqueou o cenário vulnerável como esperado.
+ Container grupo4-devsecops-juice-shop-1 Stopping 
+ Container grupo4-devsecops-juice-shop-1 Stopped 
+ Container grupo4-devsecops-juice-shop-1 Removing 
+ Container grupo4-devsecops-juice-shop-1 Removed 
+ Network grupo4-devsecops_default Removing 
+ Network grupo4-devsecops_isolated-lab Removing 
+ Network grupo4-devsecops_default Removed 
+ Network grupo4-devsecops_isolated-lab Removed 
+

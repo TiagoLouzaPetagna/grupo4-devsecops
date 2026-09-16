@@ -1,0 +1,7 @@
+target/
+.qa/
+.chart-data-*/
+build/node_modules/
+**/__pycache__/
+*.pyc
+reports/zap-juice-shop2/

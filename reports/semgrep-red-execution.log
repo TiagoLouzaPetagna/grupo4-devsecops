@@ -1,0 +1,34 @@
+ Network grupo4-devsecops_default Creating 
+ Network grupo4-devsecops_default Creating 
+ Network grupo4-devsecops_default Created 
+ Network grupo4-devsecops_default Created 
+ Container grupo4-devsecops-semgrep-run-bad56ae321d0 Creating 
+ Container grupo4-devsecops-semgrep-run-bad56ae321d0 Created 
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 1 file tracked by git with 3 Code rules:
+  Scanning 1 file with 3 ts rules.
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 1 (1 blocking)
+ • Rules run: 3
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 3 rules on 1 file: 1 finding.
+
+A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading
+ Container grupo4-devsecops-gate-run-d35ff5c31c79 Creating 
+ Container grupo4-devsecops-gate-run-d35ff5c31c79 Created 
+
+Gate DevSecOps — limiar HIGH
+Achados totais: 1 | Bloqueadores: 1
+- [HIGH] Semgrep security.juice-shop.typescript.sql-injection — Query SQL construída com interpolação de template. Use parâmetros/replacements do Sequelize para separar dados da instrução SQL. (/workspace/target/juice-shop/routes/search.ts:23)
+SUCESSO DO TESTE: o gate bloqueou o cenário vulnerável como esperado.

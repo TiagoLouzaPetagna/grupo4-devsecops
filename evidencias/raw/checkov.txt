@@ -1,0 +1,731 @@
+﻿
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.3.11 
+Update available 3.3.11 -> 3.3.17
+Run pip3 install -U checkov to update 
+
+
+terraform scan results:
+
+Passed checks: 42, Failed checks: 24, Skipped checks: 0
+
+Check: CKV_AWS_41: "Ensure no hard coded AWS access key and secret key exists in provider"
+	PASSED for resource: aws.default
+	File: /main.tf:1-3
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5
+Check: CKV_AWS_65: "Ensure container insights are enabled on ECS cluster"
+	PASSED for resource: aws_ecs_cluster.juice_shop
+	File: /main.tf:20-33
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-logging-11
+Check: CKV_AWS_223: "Ensure ECS Cluster enables logging of ECS Exec"
+	PASSED for resource: aws_ecs_cluster.juice_shop
+	File: /main.tf:20-33
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-ecs-cluster-enables-logging-of-ecs-exec
+Check: CKV_AWS_335: "Ensure ECS task definitions should not share the host's process namespace"
+	PASSED for resource: aws_ecs_task_definition.juice_shop
+	File: /main.tf:35-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-335
+Check: CKV_AWS_334: "Ensure ECS containers should run as non-privileged"
+	PASSED for resource: aws_ecs_task_definition.juice_shop
+	File: /main.tf:35-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-334
+Check: CKV_AWS_97: "Ensure Encryption in transit is enabled for EFS volumes in ECS Task definitions"
+	PASSED for resource: aws_ecs_task_definition.juice_shop
+	File: /main.tf:35-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-39
+Check: CKV_AWS_249: "Ensure that the Execution Role ARN and the Task Role ARN are different in ECS Task definitions"
+	PASSED for resource: aws_ecs_task_definition.juice_shop
+	File: /main.tf:35-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-the-aws-execution-role-arn-and-task-role-arn-are-different-in-ecs-task-definitions
+Check: CKV_AWS_332: "Ensure ECS Fargate services run on the latest Fargate platform version"
+	PASSED for resource: aws_ecs_service.juice_shop
+	File: /main.tf:99-124
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-332
+Check: CKV_AWS_66: "Ensure that CloudWatch Log Group specifies retention days"
+	PASSED for resource: aws_cloudwatch_log_group.juice_shop
+	File: /main.tf:126-134
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13
+Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	PASSED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+Check: CKV_AWS_25: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389"
+	PASSED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2
+Check: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	PASSED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	PASSED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+Check: CKV_AWS_25: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389"
+	PASSED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2
+Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+	PASSED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80
+Check: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	PASSED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+Check: CKV_AWS_328: "Ensure that ALB is configured with defensive or strictest desync mitigation mode"
+	PASSED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-328
+Check: CKV_AWS_261: "Ensure HTTP HTTPS Target group defines Healthcheck"
+	PASSED for resource: aws_lb_target_group.juice_shop
+	File: /networking.tf:135-155
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-kendra-index-server-side-encryption-uses-customer-managed-keys-cmks
+Check: CKV_AWS_2: "Ensure ALB protocol is HTTPS"
+	PASSED for resource: aws_lb_listener.https
+	File: /networking.tf:183-194
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-29
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: aws_iam_role.ecs_execution
+	File: /networking.tf:196-216
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_393: "Ensure AWS GitHub Actions OIDC authorization policies only allow safe claims and claim order on IAM role"
+	PASSED for resource: aws_iam_role.ecs_execution
+	File: /networking.tf:196-216
+Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
+	PASSED for resource: aws_iam_role.ecs_execution
+	File: /networking.tf:196-216
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
+Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
+	PASSED for resource: aws_iam_role.ecs_execution
+	File: /networking.tf:196-216
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: aws_iam_role_policy_attachment.ecs_execution
+	File: /networking.tf:218-221
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	PASSED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+Check: CKV_AWS_25: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389"
+	PASSED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2
+Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+	PASSED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80
+Check: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	PASSED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+Check: CKV_AWS_42: "Ensure EFS is securely encrypted"
+	PASSED for resource: aws_efs_file_system.juice_shop_data
+	File: /networking.tf:249-261
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-17
+Check: CKV_AWS_329: "EFS access points should enforce a root directory"
+	PASSED for resource: aws_efs_access_point.juice_shop_data
+	File: /networking.tf:270-292
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-329
+Check: CKV_AWS_330: "EFS access points should enforce a user identity"
+	PASSED for resource: aws_efs_access_point.juice_shop_data
+	File: /networking.tf:270-292
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-330
+Check: CKV2_AWS_35: "AWS NAT Gateways should be utilized for the default route"
+	PASSED for resource: aws_route_table.public
+	File: /networking.tf:42-55
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-nat-gateways-are-utilized-for-the-default-route
+Check: CKV2_AWS_74: "Ensure AWS Load Balancers use strong ciphers"
+	PASSED for resource: aws_lb_listener.http
+	File: /networking.tf:157-166
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-74
+Check: CKV2_AWS_74: "Ensure AWS Load Balancers use strong ciphers"
+	PASSED for resource: aws_lb_listener.https
+	File: /networking.tf:183-194
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-74
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: aws_iam_role.ecs_execution
+	File: /networking.tf:196-216
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: aws_iam_role_policy_attachment.ecs_execution
+	File: /networking.tf:218-221
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_44: "Ensure AWS route table with VPC peering does not contain routes overly permissive to all traffic"
+	PASSED for resource: aws_route_table.public
+	File: /networking.tf:42-55
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-route-table-with-vpc-peering-does-not-contain-routes-overly-permissive-to-all-traffic
+Check: CKV_AWS_103: "Ensure that load balancer is using at least TLS 1.2"
+	PASSED for resource: aws_lb_listener.https
+	File: /networking.tf:183-194
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-43
+Check: CKV2_AWS_76: "Ensure AWS ALB attached WAFv2 WebACL is configured with AMR for Log4j Vulnerability"
+	PASSED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+Check: CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+	PASSED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis
+Check: CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+	PASSED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis
+Check: CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+	PASSED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis
+Check: CKV_AWS_336: "Ensure ECS containers are limited to read-only access to root filesystems"
+	FAILED for resource: aws_ecs_task_definition.juice_shop
+	File: /main.tf:35-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-336
+
+		Code lines for this resource are too many. Please use IDE of your choice to review the file.
+Check: CKV_AWS_333: "Ensure ECS services do not have public IP addresses assigned to them automatically"
+	FAILED for resource: aws_ecs_service.juice_shop
+	File: /main.tf:99-124
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-333
+
+		99  | resource "aws_ecs_service" "juice_shop" {
+		100 |   name            = "${var.project_name}-service"
+		101 |   cluster         = aws_ecs_cluster.juice_shop.id
+		102 |   task_definition = aws_ecs_task_definition.juice_shop.arn
+		103 |   desired_count   = var.desired_count
+		104 |   launch_type     = "FARGATE"
+		105 | 
+		106 |   network_configuration {
+		107 |     subnets          = aws_subnet.public[*].id
+		108 |     security_groups  = [aws_security_group.ecs.id]
+		109 |     assign_public_ip = true
+		110 |   }
+		111 | 
+		112 |   load_balancer {
+		113 |     target_group_arn = aws_lb_target_group.juice_shop.arn
+		114 |     container_name   = var.project_name
+		115 |     container_port   = 3000
+		116 |   }
+		117 | 
+		118 |   depends_on = [aws_lb_listener.http]
+		119 | 
+		120 |   tags = {
+		121 |     Project     = var.project_name
+		122 |     Environment = var.environment
+		123 |   }
+		124 | }
+
+Check: CKV_AWS_338: "Ensure CloudWatch log groups retains logs for at least 1 year"
+	FAILED for resource: aws_cloudwatch_log_group.juice_shop
+	File: /main.tf:126-134
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338
+
+		126 | resource "aws_cloudwatch_log_group" "juice_shop" {
+		127 |   name              = "/ecs/${var.project_name}"
+		128 |   retention_in_days = 30
+		129 | 
+		130 |   tags = {
+		131 |     Project     = var.project_name
+		132 |     Environment = var.environment
+		133 |   }
+		134 | }
+
+Check: CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
+	FAILED for resource: aws_cloudwatch_log_group.juice_shop
+	File: /main.tf:126-134
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms
+
+		126 | resource "aws_cloudwatch_log_group" "juice_shop" {
+		127 |   name              = "/ecs/${var.project_name}"
+		128 |   retention_in_days = 30
+		129 | 
+		130 |   tags = {
+		131 |     Project     = var.project_name
+		132 |     Environment = var.environment
+		133 |   }
+		134 | }
+
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: aws_subnet.public[0]
+	File: /networking.tf:18-30
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+
+		18 | resource "aws_subnet" "public" {
+		19 |   count                   = length(var.public_subnet_cidrs)
+		20 |   vpc_id                  = aws_vpc.main.id
+		21 |   cidr_block              = var.public_subnet_cidrs[count.index]
+		22 |   availability_zone       = data.aws_availability_zones.available.names[count.index]
+		23 |   map_public_ip_on_launch = true
+		24 | 
+		25 |   tags = {
+		26 |     Name        = "${var.project_name}-public-${count.index}"
+		27 |     Project     = var.project_name
+		28 |     Environment = var.environment
+		29 |   }
+		30 | }
+
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31
+
+		63 | resource "aws_security_group" "alb" {
+		64 |   name        = "${var.project_name}-alb-sg"
+		65 |   description = "Security group for ALB"
+		66 |   vpc_id      = aws_vpc.main.id
+		67 | 
+		68 |   ingress {
+		69 |     from_port   = 80
+		70 |     to_port     = 80
+		71 |     protocol    = "tcp"
+		72 |     cidr_blocks = ["0.0.0.0/0"]
+		73 |   }
+		74 | 
+		75 |   ingress {
+		76 |     from_port   = 443
+		77 |     to_port     = 443
+		78 |     protocol    = "tcp"
+		79 |     cidr_blocks = ["0.0.0.0/0"]
+		80 |   }
+		81 | 
+		82 |   egress {
+		83 |     from_port   = 0
+		84 |     to_port     = 0
+		85 |     protocol    = "-1"
+		86 |     cidr_blocks = ["0.0.0.0/0"]
+		87 |   }
+		88 | 
+		89 |   tags = {
+		90 |     Name        = "${var.project_name}-alb-sg"
+		91 |     Project     = var.project_name
+		92 |     Environment = var.environment
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+	FAILED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80
+
+		63 | resource "aws_security_group" "alb" {
+		64 |   name        = "${var.project_name}-alb-sg"
+		65 |   description = "Security group for ALB"
+		66 |   vpc_id      = aws_vpc.main.id
+		67 | 
+		68 |   ingress {
+		69 |     from_port   = 80
+		70 |     to_port     = 80
+		71 |     protocol    = "tcp"
+		72 |     cidr_blocks = ["0.0.0.0/0"]
+		73 |   }
+		74 | 
+		75 |   ingress {
+		76 |     from_port   = 443
+		77 |     to_port     = 443
+		78 |     protocol    = "tcp"
+		79 |     cidr_blocks = ["0.0.0.0/0"]
+		80 |   }
+		81 | 
+		82 |   egress {
+		83 |     from_port   = 0
+		84 |     to_port     = 0
+		85 |     protocol    = "-1"
+		86 |     cidr_blocks = ["0.0.0.0/0"]
+		87 |   }
+		88 | 
+		89 |   tags = {
+		90 |     Name        = "${var.project_name}-alb-sg"
+		91 |     Project     = var.project_name
+		92 |     Environment = var.environment
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+
+		63 | resource "aws_security_group" "alb" {
+		64 |   name        = "${var.project_name}-alb-sg"
+		65 |   description = "Security group for ALB"
+		66 |   vpc_id      = aws_vpc.main.id
+		67 | 
+		68 |   ingress {
+		69 |     from_port   = 80
+		70 |     to_port     = 80
+		71 |     protocol    = "tcp"
+		72 |     cidr_blocks = ["0.0.0.0/0"]
+		73 |   }
+		74 | 
+		75 |   ingress {
+		76 |     from_port   = 443
+		77 |     to_port     = 443
+		78 |     protocol    = "tcp"
+		79 |     cidr_blocks = ["0.0.0.0/0"]
+		80 |   }
+		81 | 
+		82 |   egress {
+		83 |     from_port   = 0
+		84 |     to_port     = 0
+		85 |     protocol    = "-1"
+		86 |     cidr_blocks = ["0.0.0.0/0"]
+		87 |   }
+		88 | 
+		89 |   tags = {
+		90 |     Name        = "${var.project_name}-alb-sg"
+		91 |     Project     = var.project_name
+		92 |     Environment = var.environment
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31
+
+		96  | resource "aws_security_group" "ecs" {
+		97  |   name        = "${var.project_name}-ecs-sg"
+		98  |   description = "Security group for ECS tasks"
+		99  |   vpc_id      = aws_vpc.main.id
+		100 | 
+		101 |   ingress {
+		102 |     from_port       = 3000
+		103 |     to_port         = 3000
+		104 |     protocol        = "tcp"
+		105 |     security_groups = [aws_security_group.alb.id]
+		106 |   }
+		107 | 
+		108 |   egress {
+		109 |     from_port   = 0
+		110 |     to_port     = 0
+		111 |     protocol    = "-1"
+		112 |     cidr_blocks = ["0.0.0.0/0"]
+		113 |   }
+		114 | 
+		115 |   tags = {
+		116 |     Name        = "${var.project_name}-ecs-sg"
+		117 |     Project     = var.project_name
+		118 |     Environment = var.environment
+		119 |   }
+		120 | }
+
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+
+		96  | resource "aws_security_group" "ecs" {
+		97  |   name        = "${var.project_name}-ecs-sg"
+		98  |   description = "Security group for ECS tasks"
+		99  |   vpc_id      = aws_vpc.main.id
+		100 | 
+		101 |   ingress {
+		102 |     from_port       = 3000
+		103 |     to_port         = 3000
+		104 |     protocol        = "tcp"
+		105 |     security_groups = [aws_security_group.alb.id]
+		106 |   }
+		107 | 
+		108 |   egress {
+		109 |     from_port   = 0
+		110 |     to_port     = 0
+		111 |     protocol    = "-1"
+		112 |     cidr_blocks = ["0.0.0.0/0"]
+		113 |   }
+		114 | 
+		115 |   tags = {
+		116 |     Name        = "${var.project_name}-ecs-sg"
+		117 |     Project     = var.project_name
+		118 |     Environment = var.environment
+		119 |   }
+		120 | }
+
+Check: CKV_AWS_131: "Ensure that ALB drops HTTP headers"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-alb-drops-http-headers
+
+		122 | resource "aws_lb" "juice_shop" {
+		123 |   name               = "${var.project_name}-alb"
+		124 |   internal           = false
+		125 |   load_balancer_type = "application"
+		126 |   security_groups    = [aws_security_group.alb.id]
+		127 |   subnets            = aws_subnet.public[*].id
+		128 | 
+		129 |   tags = {
+		130 |     Project     = var.project_name
+		131 |     Environment = var.environment
+		132 |   }
+		133 | }
+
+Check: CKV_AWS_91: "Ensure the ELBv2 (Application/Network) has access logging enabled"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-logging-22
+
+		122 | resource "aws_lb" "juice_shop" {
+		123 |   name               = "${var.project_name}-alb"
+		124 |   internal           = false
+		125 |   load_balancer_type = "application"
+		126 |   security_groups    = [aws_security_group.alb.id]
+		127 |   subnets            = aws_subnet.public[*].id
+		128 | 
+		129 |   tags = {
+		130 |     Project     = var.project_name
+		131 |     Environment = var.environment
+		132 |   }
+		133 | }
+
+Check: CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-150
+
+		122 | resource "aws_lb" "juice_shop" {
+		123 |   name               = "${var.project_name}-alb"
+		124 |   internal           = false
+		125 |   load_balancer_type = "application"
+		126 |   security_groups    = [aws_security_group.alb.id]
+		127 |   subnets            = aws_subnet.public[*].id
+		128 | 
+		129 |   tags = {
+		130 |     Project     = var.project_name
+		131 |     Environment = var.environment
+		132 |   }
+		133 | }
+
+Check: CKV_AWS_2: "Ensure ALB protocol is HTTPS"
+	FAILED for resource: aws_lb_listener.http
+	File: /networking.tf:157-166
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-29
+
+		157 | resource "aws_lb_listener" "http" {
+		158 |   load_balancer_arn = aws_lb.juice_shop.arn
+		159 |   port              = 80
+		160 |   protocol          = "HTTP"
+		161 | 
+		162 |   default_action {
+		163 |     type             = "forward"
+		164 |     target_group_arn = aws_lb_target_group.juice_shop.arn
+		165 |   }
+		166 | }
+
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31
+
+		223 | resource "aws_security_group" "efs" {
+		224 |   name        = "${var.project_name}-efs-sg"
+		225 |   description = "Security group for EFS mount targets"
+		226 |   vpc_id      = aws_vpc.main.id
+		227 | 
+		228 |   ingress {
+		229 |     from_port       = 2049
+		230 |     to_port         = 2049
+		231 |     protocol        = "tcp"
+		232 |     security_groups = [aws_security_group.ecs.id]
+		233 |   }
+		234 | 
+		235 |   egress {
+		236 |     from_port   = 0
+		237 |     to_port     = 0
+		238 |     protocol    = "-1"
+		239 |     cidr_blocks = ["0.0.0.0/0"]
+		240 |   }
+		241 | 
+		242 |   tags = {
+		243 |     Name        = "${var.project_name}-efs-sg"
+		244 |     Project     = var.project_name
+		245 |     Environment = var.environment
+		246 |   }
+		247 | }
+
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+
+		223 | resource "aws_security_group" "efs" {
+		224 |   name        = "${var.project_name}-efs-sg"
+		225 |   description = "Security group for EFS mount targets"
+		226 |   vpc_id      = aws_vpc.main.id
+		227 | 
+		228 |   ingress {
+		229 |     from_port       = 2049
+		230 |     to_port         = 2049
+		231 |     protocol        = "tcp"
+		232 |     security_groups = [aws_security_group.ecs.id]
+		233 |   }
+		234 | 
+		235 |   egress {
+		236 |     from_port   = 0
+		237 |     to_port     = 0
+		238 |     protocol    = "-1"
+		239 |     cidr_blocks = ["0.0.0.0/0"]
+		240 |   }
+		241 | 
+		242 |   tags = {
+		243 |     Name        = "${var.project_name}-efs-sg"
+		244 |     Project     = var.project_name
+		245 |     Environment = var.environment
+		246 |   }
+		247 | }
+
+Check: CKV_AWS_184: "Ensure resource is encrypted by KMS using a customer managed Key (CMK)"
+	FAILED for resource: aws_efs_file_system.juice_shop_data
+	File: /networking.tf:249-261
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-104
+
+		249 | resource "aws_efs_file_system" "juice_shop_data" {
+		250 |   creation_token = "${var.project_name}-sqlite-data"
+		251 |   encrypted      = var.efs_encrypted
+		252 | 
+		253 |   performance_mode = "generalPurpose"
+		254 |   throughput_mode  = "bursting"
+		255 | 
+		256 |   tags = {
+		257 |     Name        = "${var.project_name}-sqlite-data"
+		258 |     Project     = var.project_name
+		259 |     Environment = var.environment
+		260 |   }
+		261 | }
+
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: aws_subnet.public[1]
+	File: /networking.tf:18-30
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+
+		18 | resource "aws_subnet" "public" {
+		19 |   count                   = length(var.public_subnet_cidrs)
+		20 |   vpc_id                  = aws_vpc.main.id
+		21 |   cidr_block              = var.public_subnet_cidrs[count.index]
+		22 |   availability_zone       = data.aws_availability_zones.available.names[count.index]
+		23 |   map_public_ip_on_launch = true
+		24 | 
+		25 |   tags = {
+		26 |     Name        = "${var.project_name}-public-${count.index}"
+		27 |     Project     = var.project_name
+		28 |     Environment = var.environment
+		29 |   }
+		30 | }
+
+Check: CKV2_AWS_11: "Ensure VPC flow logging is enabled in all VPCs"
+	FAILED for resource: aws_vpc.main
+	File: /networking.tf:6-16
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging
+
+		6  | resource "aws_vpc" "main" {
+		7  |   cidr_block           = var.vpc_cidr
+		8  |   enable_dns_hostnames = true
+		9  |   enable_dns_support   = true
+		10 | 
+		11 |   tags = {
+		12 |     Name        = "${var.project_name}-vpc"
+		13 |     Project     = var.project_name
+		14 |     Environment = var.environment
+		15 |   }
+		16 | }
+
+Check: CKV2_AWS_12: "Ensure the default security group of every VPC restricts all traffic"
+	FAILED for resource: aws_vpc.main
+	File: /networking.tf:6-16
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4
+
+		6  | resource "aws_vpc" "main" {
+		7  |   cidr_block           = var.vpc_cidr
+		8  |   enable_dns_hostnames = true
+		9  |   enable_dns_support   = true
+		10 | 
+		11 |   tags = {
+		12 |     Name        = "${var.project_name}-vpc"
+		13 |     Project     = var.project_name
+		14 |     Environment = var.environment
+		15 |   }
+		16 | }
+
+Check: CKV2_AWS_28: "Ensure public facing ALB are protected by WAF"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-public-facing-alb-are-protected-by-waf
+
+		122 | resource "aws_lb" "juice_shop" {
+		123 |   name               = "${var.project_name}-alb"
+		124 |   internal           = false
+		125 |   load_balancer_type = "application"
+		126 |   security_groups    = [aws_security_group.alb.id]
+		127 |   subnets            = aws_subnet.public[*].id
+		128 | 
+		129 |   tags = {
+		130 |     Project     = var.project_name
+		131 |     Environment = var.environment
+		132 |   }
+		133 | }
+
+Check: CKV_AWS_103: "Ensure that load balancer is using at least TLS 1.2"
+	FAILED for resource: aws_lb_listener.http
+	File: /networking.tf:157-166
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-43
+
+		157 | resource "aws_lb_listener" "http" {
+		158 |   load_balancer_arn = aws_lb.juice_shop.arn
+		159 |   port              = 80
+		160 |   protocol          = "HTTP"
+		161 | 
+		162 |   default_action {
+		163 |     type             = "forward"
+		164 |     target_group_arn = aws_lb_target_group.juice_shop.arn
+		165 |   }
+		166 | }
+
+Check: CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-alb-redirects-http-requests-into-https-ones
+
+		122 | resource "aws_lb" "juice_shop" {
+		123 |   name               = "${var.project_name}-alb"
+		124 |   internal           = false
+		125 |   load_balancer_type = "application"
+		126 |   security_groups    = [aws_security_group.alb.id]
+		127 |   subnets            = aws_subnet.public[*].id
+		128 | 
+		129 |   tags = {
+		130 |     Project     = var.project_name
+		131 |     Environment = var.environment
+		132 |   }
+		133 | }
+
+Check: CKV_AWS_378: "Ensure AWS Load Balancer doesn't use HTTP protocol"
+	FAILED for resource: aws_lb_target_group.juice_shop
+	File: /networking.tf:135-155
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-378
+
+		135 | resource "aws_lb_target_group" "juice_shop" {
+		136 |   name        = "${var.project_name}-tg"
+		137 |   port        = 3000
+		138 |   protocol    = "HTTP"
+		139 |   vpc_id      = aws_vpc.main.id
+		140 |   target_type = "ip"
+		141 | 
+		142 |   health_check {
+		143 |     path                = "/rest/admin/application-version"
+		144 |     healthy_threshold   = 2
+		145 |     unhealthy_threshold = 3
+		146 |     timeout             = 5
+		147 |     interval            = 30
+		148 |     matcher             = "200"
+		149 |   }
+		150 | 
+		151 |   tags = {
+		152 |     Project     = var.project_name
+		153 |     Environment = var.environment
+		154 |   }
+		155 | }
+
+
+

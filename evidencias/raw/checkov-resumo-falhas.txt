@@ -1,0 +1,88 @@
+﻿
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.3.11 
+Update available 3.3.11 -> 3.3.17
+Run pip3 install -U checkov to update 
+
+
+terraform scan results:
+
+--- Falhas selecionadas da mesma execução ---
+Check: CKV_AWS_336: "Ensure ECS containers are limited to read-only access to root filesystems"
+	FAILED for resource: aws_ecs_task_definition.juice_shop
+	File: /main.tf:35-97
+Check: CKV_AWS_333: "Ensure ECS services do not have public IP addresses assigned to them automatically"
+	FAILED for resource: aws_ecs_service.juice_shop
+	File: /main.tf:99-124
+Check: CKV_AWS_338: "Ensure CloudWatch log groups retains logs for at least 1 year"
+	FAILED for resource: aws_cloudwatch_log_group.juice_shop
+	File: /main.tf:126-134
+Check: CKV_AWS_158: "Ensure that CloudWatch Log Group is encrypted by KMS"
+	FAILED for resource: aws_cloudwatch_log_group.juice_shop
+	File: /main.tf:126-134
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: aws_subnet.public[0]
+	File: /networking.tf:18-30
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+	FAILED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.alb
+	File: /networking.tf:63-94
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.ecs
+	File: /networking.tf:96-120
+Check: CKV_AWS_131: "Ensure that ALB drops HTTP headers"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+Check: CKV_AWS_91: "Ensure the ELBv2 (Application/Network) has access logging enabled"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+Check: CKV_AWS_150: "Ensure that Load Balancer has deletion protection enabled"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+Check: CKV_AWS_2: "Ensure ALB protocol is HTTPS"
+	FAILED for resource: aws_lb_listener.http
+	File: /networking.tf:157-166
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.efs
+	File: /networking.tf:223-247
+Check: CKV_AWS_184: "Ensure resource is encrypted by KMS using a customer managed Key (CMK)"
+	FAILED for resource: aws_efs_file_system.juice_shop_data
+	File: /networking.tf:249-261
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: aws_subnet.public[1]
+	File: /networking.tf:18-30
+Check: CKV2_AWS_11: "Ensure VPC flow logging is enabled in all VPCs"
+	FAILED for resource: aws_vpc.main
+	File: /networking.tf:6-16
+Check: CKV2_AWS_12: "Ensure the default security group of every VPC restricts all traffic"
+	FAILED for resource: aws_vpc.main
+	File: /networking.tf:6-16
+Check: CKV2_AWS_28: "Ensure public facing ALB are protected by WAF"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+Check: CKV_AWS_103: "Ensure that load balancer is using at least TLS 1.2"
+	FAILED for resource: aws_lb_listener.http
+	File: /networking.tf:157-166
+Check: CKV2_AWS_20: "Ensure that ALB redirects HTTP requests into HTTPS ones"
+	FAILED for resource: aws_lb.juice_shop
+	File: /networking.tf:122-133
+Check: CKV_AWS_378: "Ensure AWS Load Balancer doesn't use HTTP protocol"
+	FAILED for resource: aws_lb_target_group.juice_shop
+	File: /networking.tf:135-155

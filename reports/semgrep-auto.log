@@ -1,0 +1,40 @@
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 1027 files tracked by git with 1074 Code rules:
+                                                                                                                        
+  Language      Rules   Files          Origin      Rules                                                                
+ ─────────────────────────────        ───────────────────                                                               
+  <multilang>      77     685          Community    1074                                                                
+  ts              163     507                                                                                           
+  json              4     105                                                                                           
+  yaml             35      98                                                                                           
+  html              1      82                                                                                           
+  solidity         21      17                                                                                           
+  js              153      12                                                                                           
+  terraform       101      11                                                                                           
+  dockerfile        6       2                                                                                           
+  bash              4       1                                                                                           
+                                                                                                                        
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 69 (69 blocking)
+ • Rules run: 408
+ • Targets scanned: 1027
+ • Parsed lines: ~99.9%
+ • Scan skipped: 
+   ◦ Files larger than  files 1.0 MB: 2
+   ◦ Files matching .semgrepignore patterns: 7
+ • For a detailed list of skipped files and lines, run semgrep with the --verbose flag
+Ran 408 rules on 1027 files: 69 findings.
+
+A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading
+
+📢 Too many findings? Try Semgrep Pro for more powerful queries and less noise.
+   See https://sg.run/false-positives.

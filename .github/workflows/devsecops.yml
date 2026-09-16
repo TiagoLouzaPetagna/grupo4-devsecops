@@ -1,0 +1,44 @@
+name: grupo4-devsecops
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sast-red-green:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validar bloqueio do código vulnerável
+        shell: pwsh
+        run: ./scripts/run-lab.ps1 -Mode sast-red
+      - name: Validar aprovação após correção
+        shell: pwsh
+        run: ./scripts/run-lab.ps1 -Mode sast-green
+      - name: Publicar relatórios SAST
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-red-green
+          path: reports/semgrep-*.json
+
+  dast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Executar ZAP no Juice Shop local
+        shell: pwsh
+        run: ./scripts/run-lab.ps1 -Mode dast
+      - name: Publicar relatórios DAST
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-juice-shop
+          path: reports/zap-juice-shop*
+

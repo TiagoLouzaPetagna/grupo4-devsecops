@@ -1,0 +1,32 @@
+﻿ Container grupo4-devsecops-semgrep-run-d209d379531b Creating 
+ Container grupo4-devsecops-semgrep-run-d209d379531b Created 
+               
+               
+┌─────────────┐
+│ Scan Status │
+└─────────────┘
+  Scanning 1 file tracked by git with 3 Code rules:
+  Scanning 1 file with 3 ts rules.
+                
+                
+┌──────────────┐
+│ Scan Summary │
+└──────────────┘
+✅ Scan completed successfully.
+ • Findings: 0 (0 blocking)
+ • Rules run: 3
+ • Targets scanned: 1
+ • Parsed lines: ~100.0%
+ • No ignore information available
+Ran 3 rules on 1 file: 0 findings.
+
+A new version of Semgrep is available. See https://semgrep.dev/docs/upgrading
+If Semgrep missed a finding, please send us feedback to let us know!
+See https://semgrep.dev/docs/reporting-false-negatives/
+ Container grupo4-devsecops-gate-run-2aa277bc1824 Creating 
+ Container grupo4-devsecops-gate-run-2aa277bc1824 Created 
+
+Gate DevSecOps — limiar HIGH
+Achados totais: 0 | Bloqueadores: 0
+GATE APROVADO: nenhum HIGH/CRITICAL nos relatórios informados.
+
