@@ -2,6 +2,9 @@ target/
 .qa/
 .chart-data-*/
 build/node_modules/
+/build/
+/entrega/
+/evidencias/
 **/__pycache__/
 *.pyc
 reports/zap-juice-shop2/

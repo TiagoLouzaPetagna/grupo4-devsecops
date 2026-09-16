@@ -6,10 +6,11 @@ Repositório oficial: <https://github.com/TiagoLouzaPetagna/grupo4-devsecops>
 
 | Integrante | RM | Responsabilidade |
 |---|---:|---|
-| Tiago Louzã | — | Líder técnico e responsável pelo repositório |
-| Leando de Souza Silva | 566485 | Integrante |
+| Tiago Louzã | 562404 | Líder técnico e responsável pelo repositório |
+| Leandro de Souza da Silva | 566485 | Integrante |
 | Luiz Fernando | 562652 | Integrante |
 | Fabricio de Freitas Evangelista | 564782 | Integrante |
+| Mateus Kalil | 565098 | Integrante |
 | Erik Gunnar | 565107 | Relator |
 
 Professor: **Fabio Pires**.
@@ -146,7 +147,3 @@ Os relatórios ficam em `reports/`. A pasta `target/` é gerada e não deve ser 
 ## Ética e segurança
 
 Não use o plano do ZAP contra a instância pública de demonstração nem contra qualquer terceiro. O repositório oficial deixa claro que a demonstração pública não é alvo para testes. Esta atividade limita a varredura à cópia local deliberadamente vulnerável.
-
-## Plano B
-
-Antes da aula, gere e versione os relatórios finais. Se o Docker ou a rede falhar durante a apresentação, mostre essas evidências e execute o gate sobre os JSON já gerados. Não improvise testes contra um serviço externo.

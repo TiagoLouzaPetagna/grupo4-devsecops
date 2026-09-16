@@ -1,8 +1,8 @@
 # Laboratório reproduzível — OWASP Juice Shop + Semgrep + ZAP
 
-**Grupo 4:** Tiago Louzã (líder técnico), Leando de Souza Silva (RM566485),
-Luiz Fernando (RM562652), Fabricio de Freitas Evangelista (RM564782) e
-Erik Gunnar (RM565107, relator).
+**Grupo 4:** Tiago Louzã (RM562404, líder técnico), Leandro de Souza da Silva (RM566485),
+Luiz Fernando (RM562652), Fabricio de Freitas Evangelista (RM564782),
+Mateus Kalil (RM565098) e Erik Gunnar (RM565107, relator).
 
 **Professor:** Fabio Pires  
 **Repositório:** <https://github.com/TiagoLouzaPetagna/grupo4-devsecops>
